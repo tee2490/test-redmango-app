@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { MenuItemList } from '../components/home'
 
-export default function HomeScreen() {
+export default function MenuItemCard() {
   return (
     <View>
-      <MenuItemList />
+      <Text>MenuItemCard</Text>
     </View>
   )
 }
