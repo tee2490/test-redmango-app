@@ -1,3 +1,3 @@
-import Navigators from "./BottomTabNavigation";
+import MainNavigators from "./BottomTabNavigation";
 
-export {Navigators}
+export {MainNavigators}

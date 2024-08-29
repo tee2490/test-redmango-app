@@ -1,6 +1,6 @@
 import { useFonts } from "expo-font";
 import { Text } from "react-native";
-import StackNavigation from "./src/navigates/StackNavigation";
+import { MainNavigators } from "./src/navigates";
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -20,7 +20,7 @@ export default function App() {
 
   return (
     <>
-      <StackNavigation/>
+      <MainNavigators/>
     </>
   );
 }
