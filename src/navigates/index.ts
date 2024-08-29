@@ -1,3 +1,3 @@
-import Navigators from "./Navigators";
+import Navigators from "./BottomTabNavigation";
 
 export {Navigators}
