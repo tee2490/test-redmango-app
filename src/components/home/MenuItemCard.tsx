@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function MenuItemCard(item: Props) {
+  //RootStackParamList เรียกใช้รูปแบบพารามิเตอร์สำหรับส่งไปยังอีก screen
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   
   return (

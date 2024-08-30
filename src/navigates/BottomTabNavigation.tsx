@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen } from "../screen";
 import StackNavigation from "./StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
+import { SIZES } from "../constants";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,5 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
+    paddingTop: SIZES.xxLarge-10,
   },
 });

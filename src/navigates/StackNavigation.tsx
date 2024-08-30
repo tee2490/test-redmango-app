@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { HomeScreen, MenuItemDetailScreen } from "../screen";
 import { RootStackParamList } from "./typeRootStack";
 
+//ประกาศ RootStackParamList กำหนดพารามิเตอร์สำหรับส่งจาก Screen to Screen 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function StackNavigation() {
@@ -25,3 +26,4 @@ export default function StackNavigation() {
     </GestureHandlerRootView>
   );
 }
+

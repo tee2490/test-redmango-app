@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { menuItemModel } from "../../interfaces";
 import MenuItemCard from "./MenuItemCard";
 import styles from "./MenuItemList.style";
+import { baseUrl } from "../../constants/SD";
 
 export default function MenuItemList() {
   const [menuItems, setMenuItems] = useState<menuItemModel[]>([]);
 
   useEffect(() => {
-    fetch("https://60d6-202-28-123-199.ngrok-free.app/api/MenuItem")
+    fetch(`${baseUrl}/api/MenuItem`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

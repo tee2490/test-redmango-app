@@ -1,133 +1,155 @@
 import { StyleSheet } from "react-native";
-import {COLORS, SIZES} from '../constants/index'
+import { COLORS, SIZES } from "../constants";
 
 const styles = StyleSheet.create({
-   container: {
+  container: {
     flex: 1,
-    backgroundColor: COLORS.lightWhite
-   },
+    backgroundColor: COLORS.lightWhite,
+  },
 
-   upperRow: {
+  upperRow: {
     marginHorizontal: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     position: "absolute",
     top: SIZES.xxLarge,
-    width: SIZES.width -44,
-    zIndex: 999
-   },
-   image: {
-    aspectRatio: 1,
-    resizeMode: "cover"
-   },
-   details: {
+    width: SIZES.width - 44,
+    zIndex: 999,
+  },
+
+  image: {
+    aspectRatio:1.1,
+    resizeMode:"cover"
+  },
+
+  details: {
     marginTop: -SIZES.large,
-    backgroundColor:COLORS.lightWhite,
+    backgroundColor: COLORS.lightWhite,
     width: SIZES.width,
     borderTopLeftRadius: SIZES.medium,
     borderTopRightRadius: SIZES.medium,
-   },
-   cartRow: {
-    paddingBottom:SIZES.small,
+  },
+
+  cartRow: {
+    paddingBottom: SIZES.small,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: SIZES.width,
-   },
-   cartBtn: {
-    width: SIZES.width*0.7,
+  },
+
+  cartBtn: {
+    width: SIZES.width * 0.7,
     backgroundColor: COLORS.black,
-    padding: SIZES.small/2,
+    padding: SIZES.small / 2,
     borderRadius: SIZES.large,
-    marginLeft: 12
-   },
+    marginLeft: 12,
+  },
 
-   titleRow:{
+  nameRow: {
     marginHorizontal: 20,
-    paddingBottom:SIZES.small,
+    paddingBottom: SIZES.small,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: SIZES.width -44,
-    top:  20  
-  },
-  ratingRow:{
-    paddingBottom:SIZES.small,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: SIZES.width -10,
-    top:  5  
+    width: SIZES.width - 44,
+    top: 20,
   },
 
-  rating:{
+  name: {
+    fontFamily: "bold",
+    fontSize: SIZES.large,
+  },
+
+  categoryRow: {
+    paddingBottom: SIZES.small,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: SIZES.width - 10,
+    top: 5,
+  },
+
+  category: {
     top: SIZES.large,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginHorizontal: SIZES.large
+    marginHorizontal: SIZES.large,
+    backgroundColor: COLORS.secondary,
+    padding: 5,
+    borderRadius: SIZES.large,
   },
 
-  ratingText:{
+  categoryText: {
     color: COLORS.gray,
     fontFamily: "medium",
     paddingHorizontal: SIZES.xSmall,
   },
-  descriptionWraper:{
-    marginTop: SIZES.large*2,
-    marginHorizontal:SIZES.large
+
+  countRow: {
+    top: SIZES.large,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginHorizontal: SIZES.large,
+    backgroundColor: COLORS.secondary,
+    padding: 5,
+    borderRadius: SIZES.large,
   },
+
+  countText: {
+    color: COLORS.black,
+    fontFamily: "medium",
+    fontSize : SIZES.medium,
+    paddingHorizontal: SIZES.xSmall,
+  },
+
+  descriptionWraper: {
+    marginTop: SIZES.large * 2,
+    marginHorizontal: SIZES.large,
+  },
+
   description: {
     fontFamily: "medium",
-    fontSize: SIZES.large -2
+    fontSize: SIZES.large - 2,
   },
-  descText:{
+
+  descText: {
     fontFamily: "regular",
-    fontSize: SIZES.small, 
+    fontSize: SIZES.small,
     textAlign: "justify",
-    marginBottom: SIZES.small
+    marginBottom: SIZES.small,
   },
-  location:{
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: COLORS.secondary,
-    marginHorizontal: 12,
-    padding: 5,
-    borderRadius: SIZES.large
-  },
-  cartTitle:{
-    marginLeft:SIZES.small,
-    fontFamily: "semibold",
+  
+  cartTitle: {
+    marginLeft: SIZES.small,
+    fontFamily: "semiBold",
     fontSize: SIZES.medium,
-    color: COLORS.lightWhite
-   },
+    color: COLORS.lightWhite,
+  },
 
-   title:{
-    fontFamily: "bold",
-    fontSize: SIZES.large
-   },
-
-   price:{
+  price: {
     paddingHorizontal: 10,
     fontFamily: "semibold",
-    fontSize: SIZES.large
-   },
+    fontSize: SIZES.large,
+  },
 
-   priceWrapper:{
+  priceWrapper: {
     backgroundColor: COLORS.secondary,
-    borderRadius: SIZES.large
-   }, 
-   addCart: {
+    borderRadius: SIZES.large,
+  },
+
+  addCart: {
     width: 37,
-    height: 37, 
-    borderRadius: 50, 
+    height: 37,
+    borderRadius: 50,
     margin: SIZES.small,
     backgroundColor: COLORS.black,
     alignItems: "center",
-    justifyContent: "center"
-   },
-})
+    justifyContent: "center",
+  },
+});
 
 export default styles;
