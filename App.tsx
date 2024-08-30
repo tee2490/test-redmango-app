@@ -1,6 +1,8 @@
 import { useFonts } from "expo-font";
 import { Text } from "react-native";
 import { MainNavigators } from "./src/navigates";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -19,8 +21,8 @@ export default function App() {
   }
 
   return (
-    <>
+    <Provider store={store}>
       <MainNavigators />
-    </>
+    </Provider>
   );
 }

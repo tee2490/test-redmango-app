@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES } from "../constants";
+import { COLORS, FONTS, SIZES } from "../constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    aspectRatio:1.1,
+    aspectRatio:1.2,
     resizeMode:"cover"
   },
 
@@ -29,14 +29,6 @@ const styles = StyleSheet.create({
     width: SIZES.width,
     borderTopLeftRadius: SIZES.medium,
     borderTopRightRadius: SIZES.medium,
-  },
-
-  cartRow: {
-    paddingBottom: SIZES.small,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: SIZES.width,
   },
 
   cartBtn: {
@@ -58,7 +50,7 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    fontFamily: "bold",
+    fontFamily: FONTS.bold,
     fontSize: SIZES.large,
   },
 
@@ -84,7 +76,7 @@ const styles = StyleSheet.create({
 
   categoryText: {
     color: COLORS.gray,
-    fontFamily: "medium",
+    fontFamily: FONTS.medium,
     paddingHorizontal: SIZES.xSmall,
   },
 
@@ -101,44 +93,52 @@ const styles = StyleSheet.create({
 
   countText: {
     color: COLORS.black,
-    fontFamily: "medium",
+    fontFamily: FONTS.medium,
     fontSize : SIZES.medium,
     paddingHorizontal: SIZES.xSmall,
   },
 
   descriptionWraper: {
-    marginTop: SIZES.large * 2,
+    marginTop: SIZES.xLarge,
     marginHorizontal: SIZES.large,
   },
 
   description: {
-    fontFamily: "medium",
+    fontFamily: FONTS.medium,
     fontSize: SIZES.large - 2,
   },
 
   descText: {
-    fontFamily: "regular",
+    fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     textAlign: "justify",
     marginBottom: SIZES.small,
   },
   
-  cartTitle: {
-    marginLeft: SIZES.small,
-    fontFamily: "semiBold",
-    fontSize: SIZES.medium,
-    color: COLORS.lightWhite,
-  },
-
   price: {
     paddingHorizontal: 10,
-    fontFamily: "semibold",
+    fontFamily: FONTS.semiBold,
     fontSize: SIZES.large,
   },
 
   priceWrapper: {
     backgroundColor: COLORS.secondary,
     borderRadius: SIZES.large,
+  },
+
+  cartRow: {
+    paddingBottom: SIZES.small,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: SIZES.width,
+  },
+
+  cartTitle: {
+    marginLeft: SIZES.small,
+    fontFamily: FONTS.semiBold,
+    fontSize: SIZES.medium,
+    color: COLORS.lightWhite,
   },
 
   addCart: {
