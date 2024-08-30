@@ -1,27 +1,29 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { menuItemModel } from "../../interfaces";
 import MenuItemCard from "./MenuItemCard";
 import styles from "./MenuItemList.style";
-import { baseUrl } from "../../constants/SD";
+import { useDispatch } from "react-redux";
+import { useGetMenuItemsQuery } from "../../redux/apis/menuItemApi";
+import { setMenuItem } from "../../redux/menuItemSlice";
 
 export default function MenuItemList() {
-  const [menuItems, setMenuItems] = useState<menuItemModel[]>([]);
+  const dispatch = useDispatch();
+  const { data, isLoading } = useGetMenuItemsQuery(null);
 
   useEffect(() => {
-    fetch(`${baseUrl}/api/MenuItem`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setMenuItems(data.result);
-      })
-      .catch(() => console.log("error"));
-  }, []);
+    if (!isLoading) {
+      dispatch(setMenuItem(data.result));
+    }
+  }, [isLoading]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={menuItems}
+        data={data.result}
         numColumns={2}
         renderItem={({ item }) => <MenuItemCard menuItem={item} />}
         contentContainerStyle={styles.container}
