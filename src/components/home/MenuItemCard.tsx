@@ -17,7 +17,7 @@ export default function MenuItemCard(item: Props) {
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   
   return (
-    <TouchableOpacity onPress={() => navigate('MenuItemDetailScreen',{item : item.menuItem})}>
+    <TouchableOpacity onPress={() => navigate('MenuItemDetailScreen',{id : item.menuItem.id})}>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
@@ -43,7 +43,7 @@ export default function MenuItemCard(item: Props) {
           <Text style={styles.catgory} numberOfLines={1}>
             {item.menuItem.category}
           </Text>
-          <Text style={styles.price}>${item.menuItem.price}</Text>
+          <Text style={styles.price}>5${item.menuItem.price}</Text>
         </View>
         <TouchableOpacity style={styles.addBtn}>
           <Ionicons name="add-circle" size={35} color={COLORS.primary} />

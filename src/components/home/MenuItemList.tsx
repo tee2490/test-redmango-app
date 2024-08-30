@@ -1,4 +1,4 @@
-import { FlatList, View } from "react-native";
+import { FlatList, View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import MenuItemCard from "./MenuItemCard";
 import styles from "./MenuItemList.style";
@@ -17,7 +17,7 @@ export default function MenuItemList() {
   }, [isLoading]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Text>Loading...</Text>
   }
 
   return (

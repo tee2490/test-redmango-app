@@ -7,6 +7,7 @@ import { COLORS } from "../constants";
 import { RootStackParamList } from "../navigates/typeRootStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { baseUrl } from "../constants/SD";
+import { useGetMenuItemByIdQuery } from "../redux/apis/menuItemApi";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type DetailsScreenNavigationProp = NativeStackNavigationProp<
@@ -26,7 +27,8 @@ type Props = {
 //*** navigation&route ***
 
 const MenuItemDetailScreen = ({ navigation, route }: Props) => {
-  const { item } = route.params;
+  const { id } = route.params;
+  const { data: item, isLoading } = useGetMenuItemByIdQuery(id);
   const [count, setCount] = useState(1);
 
   const increment = () => {
@@ -41,64 +43,72 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.upperRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back-circle" color={COLORS.red} size={40} />
-          </TouchableOpacity>
-        </View>
-        <Image
-          source={{
-            uri: baseUrl + item.image,
-          }}
-          style={styles.image}
-        />
-
-        <View style={styles.details}>
-          <View style={styles.nameRow}>
-            <Text style={styles.name}>{item.name}</Text>
-            <View style={styles.priceWrapper}>
-              <Text style={styles.price}>$ {item.price}</Text>
-            </View>
-          </View>
-
-          <View style={styles.categoryRow}>
-            <View style={styles.category}>
-              <Text> {item.category}</Text>
-            </View>
-
-            <View style={styles.countRow}>
-              <TouchableOpacity onPress={() => increment()}>
-                <SimpleLineIcons name="plus" size={20} />
-              </TouchableOpacity>
-              <Text style={styles.countText}>{count}</Text>
-
-              <TouchableOpacity onPress={() => decrement()}>
-                <SimpleLineIcons name="minus" size={20} />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.descriptionWraper}>
-            <Text style={styles.description}>Description</Text>
-            <Text style={styles.descText}>{item.description}</Text>
-          </View>
-
-          <View style={styles.cartRow}>
-            <TouchableOpacity onPress={() => {}} style={styles.cartBtn}>
-              <Text style={styles.cartTitle}>ADD TO CART </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => {}} style={styles.addCart}>
-              <Fontisto
-                name="shopping-bag"
-                size={22}
-                color={COLORS.lightWhite}
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.upperRow}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name="chevron-back-circle"
+                color={COLORS.red}
+                size={40}
               />
             </TouchableOpacity>
           </View>
+          <Image
+            source={{
+              uri: baseUrl + item.result.image,
+            }}
+            style={styles.image}
+          />
+
+          <View style={styles.details}>
+            <View style={styles.nameRow}>
+              <Text style={styles.name}>{item.result.name}</Text>
+              <View style={styles.priceWrapper}>
+                <Text style={styles.price}>$ {item.result.price}</Text>
+              </View>
+            </View>
+
+            <View style={styles.categoryRow}>
+              <View style={styles.category}>
+                <Text> {item.result.category}</Text>
+              </View>
+
+              <View style={styles.countRow}>
+                <TouchableOpacity onPress={() => increment()}>
+                  <SimpleLineIcons name="plus" size={20} />
+                </TouchableOpacity>
+                <Text style={styles.countText}>{count}</Text>
+
+                <TouchableOpacity onPress={() => decrement()}>
+                  <SimpleLineIcons name="minus" size={20} />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.descriptionWraper}>
+              <Text style={styles.description}>Description</Text>
+              <Text style={styles.descText}>{item.result.description}</Text>
+            </View>
+
+            <View style={styles.cartRow}>
+              <TouchableOpacity onPress={() => {}} style={styles.cartBtn}>
+                <Text style={styles.cartTitle}>ADD TO CART </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}} style={styles.addCart}>
+                <Fontisto
+                  name="shopping-bag"
+                  size={22}
+                  color={COLORS.lightWhite}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      )}
     </ScrollView>
   );
 };
