@@ -6,8 +6,9 @@ import styles from "./MenuItemDetailScreen.style";
 import { COLORS } from "../constants";
 import { RootStackParamList } from "../navigates/typeRootStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { baseUrl } from "../constants/SD";
+import { baseUrl, userTest } from "../constants/SD";
 import { useGetMenuItemByIdQuery } from "../redux/apis/menuItemApi";
+import { useUpdateShoppingCartMutation } from "../redux/apis/shoppingCartApi";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type DetailsScreenNavigationProp = NativeStackNavigationProp<
@@ -29,6 +30,8 @@ type Props = {
 const MenuItemDetailScreen = ({ navigation, route }: Props) => {
   const { id } = route.params;
   const { data: item, isLoading } = useGetMenuItemByIdQuery(id);
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+  const [updateShoppingCart] = useUpdateShoppingCartMutation();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -39,6 +42,20 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
     }
     setQuantity(newQuantity);
     return;
+  };
+
+  const handleAddToCart = async (menuItemId: number) => {
+    setIsAddingToCart(true);
+
+    const response = await updateShoppingCart({
+      menuItemId: menuItemId,
+      updateQuantityBy: quantity,
+      userId: userTest,
+    });
+
+    console.log(response);
+
+    setIsAddingToCart(false);
   };
 
   return (
@@ -94,7 +111,7 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
             </View>
 
             <View style={styles.cartRow}>
-              <TouchableOpacity onPress={() => {}} style={styles.cartBtn}>
+              <TouchableOpacity onPress={() => handleAddToCart(item.result?.id)} style={styles.cartBtn}>
                 <Text style={styles.cartTitle}>ADD TO CART </Text>
               </TouchableOpacity>
 
