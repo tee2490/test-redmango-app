@@ -1,7 +1,7 @@
 import { useFonts } from "expo-font";
 import { Text } from "react-native";
 import { MainNavigators } from "./src/navigates";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import store from "./src/redux/store";
 
 export default function App() {
