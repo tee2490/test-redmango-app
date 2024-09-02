@@ -1,4 +1,8 @@
 import HomeScreen from "./HomeScreen";
-import MenuItemDetailScreen from "./MenuItemDetailScreen"
+import MenuItemDetailScreen from "./MenuItemDetailScreen";
+import ShoppingCart from "./ShoppingCartScreen";
 
-export { HomeScreen, MenuItemDetailScreen};
+export { 
+    HomeScreen,
+    MenuItemDetailScreen,
+    ShoppingCart };

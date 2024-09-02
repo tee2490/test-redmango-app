@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { userTest } from "../common/SD";
 import { useGetShoppingCartQuery } from "../redux/apis/shoppingCartApi";
 import { setShoppingCart } from "../redux/shoppingCartSlice";
+import ShoppingCartScreen from "../screen/ShoppingCartScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +54,7 @@ export default function BottomTabNavigation() {
           })}
         >
           <Tab.Screen name="HOME" component={StackNavigation} />
-          <Tab.Screen name="CART" component={HomeScreen} />
+          <Tab.Screen name="CART" component={ShoppingCartScreen} />
           <Tab.Screen name="SETTING" component={HomeScreen} />
         </Tab.Navigator>
       </View>
