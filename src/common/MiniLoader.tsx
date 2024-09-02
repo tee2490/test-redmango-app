@@ -1,12 +1,14 @@
-import { ActivityIndicator, View } from 'react-native'
-import React, { Component } from 'react'
+import { ActivityIndicator, View } from "react-native";
+import React from "react";
 
-export default class MiniLoader extends Component {
-  render() {
-    return (
-      <View>
-         <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    )
-  }
+type Props = {
+  color?: string;
+};
+
+export default function MiniLoader({ color = "#0000ff" }: Props) {
+  return (
+    <View>
+      <ActivityIndicator size="large" color={color} />
+    </View>
+  );
 }

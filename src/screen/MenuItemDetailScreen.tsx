@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { Ionicons, SimpleLineIcons, Fontisto } from "@expo/vector-icons";
 import styles from "./MenuItemDetailScreen.style";
-import { COLORS } from "../common";
+import { COLORS, MiniLoader } from "../common";
 import { RootStackParamList } from "../navigates/typeRootStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { baseUrl, userTest } from "../common/SD";
@@ -55,7 +55,7 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
 
     console.log(response);
 
-    setIsAddingToCart(false);
+    setTimeout(() => setIsAddingToCart(false), 500);
   };
 
   return (
@@ -111,9 +111,18 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
             </View>
 
             <View style={styles.cartRow}>
-              <TouchableOpacity onPress={() => handleAddToCart(item.result?.id)} style={styles.cartBtn}>
-                <Text style={styles.cartTitle}>ADD TO CART </Text>
-              </TouchableOpacity>
+              {isAddingToCart ? (
+                <View style={styles.cartBtn}>
+                  <MiniLoader color="red" />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => handleAddToCart(item.result?.id)}
+                  style={styles.cartBtn}
+                >
+                  <Text style={styles.cartTitle}>ADD TO CART </Text>
+                </TouchableOpacity>
+              )}
 
               <TouchableOpacity onPress={() => {}} style={styles.addCart}>
                 <Fontisto
