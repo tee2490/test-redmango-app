@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { Ionicons, SimpleLineIcons, Fontisto } from "@expo/vector-icons";
 import styles from "./MenuItemDetailScreen.style";
-import { COLORS } from "../constants";
+import { COLORS } from "../common";
 import { RootStackParamList } from "../navigates/typeRootStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { baseUrl, userTest } from "../constants/SD";
+import { baseUrl, userTest } from "../common/SD";
 import { useGetMenuItemByIdQuery } from "../redux/apis/menuItemApi";
 import { useUpdateShoppingCartMutation } from "../redux/apis/shoppingCartApi";
 

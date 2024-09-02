@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen } from "../screen";
 import StackNavigation from "./StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
-import { SIZES } from "../constants";
+import { SIZES } from "../common";
 
 const Tab = createBottomTabNavigator();
 
