@@ -5,6 +5,7 @@ import styles from "./MenuItemList.style";
 import { useDispatch } from "react-redux";
 import { useGetMenuItemsQuery } from "../../redux/apis/menuItemApi";
 import { setMenuItem } from "../../redux/menuItemSlice";
+import { MainLoader } from "../../common";
 
 export default function MenuItemList() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export default function MenuItemList() {
   }, [isLoading]);
 
   if (isLoading) {
-    return <Text>Loading...</Text>
+    return <MainLoader/>
   }
 
   return (
