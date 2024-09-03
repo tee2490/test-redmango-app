@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
 import { Formik } from "formik";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "./CartPickUpDetails.style";
 import { FormInput } from "../../ui";
-import { COLORS } from "../../common";
+import { COLORS, MiniLoader } from "../../common";
 import { PickupDetailsSchema } from "../../utils";
+import { isLoaded } from "expo-font";
 
 const CartPickUpDetails: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+
   const initialUserData = {
     name: "",
     email: "",
@@ -21,6 +24,9 @@ const CartPickUpDetails: React.FC = () => {
       onSubmit={(values) => {
         console.log(values);
         // Handle form submission
+        setLoading(true);
+
+        setTimeout(() => setLoading(false), 5000);
       }}
     >
       {({
@@ -71,12 +77,16 @@ const CartPickUpDetails: React.FC = () => {
               <Text>No of items: 36</Text>
             </View>
 
-            <Button
-              onPress={handleSubmit}
-              title="Looks Good? Place Order!"
-              color={COLORS.green}
-              disabled={!isValid}
-            />
+            {loading ? (
+              <MiniLoader />
+            ) : (
+              <Button
+                onPress={()=>handleSubmit()}
+                title="Looks Good? Place Order!"
+                color={COLORS.green}
+                disabled={!isValid}
+              />
+            )}
           </View>
         </ScrollView>
       )}
