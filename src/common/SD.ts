@@ -1,4 +1,4 @@
-export const baseUrl = 'https://25f0-202-28-123-199.ngrok-free.app';
+export const baseUrl = 'https://f8d9-202-28-123-199.ngrok-free.app';
 
 export const baseUrlAPI = baseUrl + '/api/';
 
