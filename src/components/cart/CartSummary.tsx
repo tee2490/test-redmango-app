@@ -48,7 +48,7 @@ const CartSummary: React.FC = () => {
         style={styles.backRightBtn}
         onPress={() => handleQuantity(0, item)}
       >
-        <Text style={styles.backText}>Remove</Text>
+        <Ionicons name="trash-outline" size={24} color="white" style={styles.backText} />
       </TouchableOpacity>
     </View>
   );

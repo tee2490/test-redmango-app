@@ -3,12 +3,12 @@ import { COLORS, FONTS, SIZES } from "../../common";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.lightWhite,
-    padding:SIZES.xSmall-5,
+    padding: SIZES.xSmall - 5,
+    borderRadius: 5,
   },
   listContentContainer: {
-    paddingBottom: SIZES.xxLarge,
+    paddingBottom: SIZES.medium,
   },
   rowFront: {
     flexDirection: "row",
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     borderBottomColor: "#ccc",
     borderBottomWidth: 1,
-    paddingHorizontal: SIZES.xSmall,
+    paddingHorizontal: SIZES.medium,
     paddingVertical: SIZES.xSmall,
     width: SIZES.width, // Full width of the screen
   },
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   backText: {
     color: COLORS.white,
     fontFamily: FONTS.bold,
-    paddingRight:SIZES.xSmall,
+    paddingRight: SIZES.xSmall,
   },
 });
 
