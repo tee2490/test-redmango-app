@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeScreen } from "../screen";
+import { HomeScreen, ProfileScreen } from "../screen";
 import StackNavigation from "./StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { SIZES } from "../common";
@@ -60,7 +60,10 @@ export default function BottomTabNavigation() {
                   );
               } else if (route.name === "SETTING") {
                 iconName = "settings";
+              } else if (route.name === "PROFILE") {
+                iconName = "person";
               }
+
 
               // You can return any component that you like here!
               return <Ionicons name={iconName} size={size} color={color} />;
@@ -73,6 +76,7 @@ export default function BottomTabNavigation() {
           <Tab.Screen name="HOME" component={StackNavigation} />
           <Tab.Screen name="CART" component={ShoppingCartScreen} />
           <Tab.Screen name="SETTING" component={HomeScreen} />
+          <Tab.Screen name="PROFILE" component={ProfileScreen} />
         </Tab.Navigator>
       </View>
     </NavigationContainer>
@@ -84,6 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
-    paddingTop: SIZES.xxLarge - 10,
+    paddingTop: SIZES.xLarge ,
   },
 });

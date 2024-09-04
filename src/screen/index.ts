@@ -1,8 +1,11 @@
 import HomeScreen from "./HomeScreen";
 import MenuItemDetailScreen from "./MenuItemDetailScreen";
-import ShoppingCart from "./ShoppingCartScreen";
+import ShoppingCartScreen from "./ShoppingCartScreen";
+import ProfileScreen from "./ProfileScreen";
 
 export { 
     HomeScreen,
     MenuItemDetailScreen,
-    ShoppingCart };
+    ShoppingCartScreen,
+    ProfileScreen,
+ };
