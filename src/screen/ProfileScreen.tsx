@@ -12,12 +12,14 @@ import {
   MaterialCommunityIcons,
   SimpleLineIcons,
 } from "@expo/vector-icons";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import styles from "./ProfileScreen.style";
 import { COLORS } from "../common";
+import { RootStackParamList } from "../navigates/typeRootStack";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export default function ProfileScreen() {
-  const [userData, setUserData] = useState(null);
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const [userLogin, setUserLogin] = useState(false);
 
   useEffect(() => {
@@ -25,31 +27,11 @@ export default function ProfileScreen() {
   }, []);
 
   const checkExistingUser = async () => {
-    //   const id = await AsyncStorage.getItem('id')
-    //   const useId = `user${JSON.parse(id)}`;
-    //   try {
-    //     const currentUser = await AsyncStorage.getItem(useId);
-    //     if(currentUser !== null){
-    //       const parsedData = JSON.parse(currentUser)
-    //       setUserData(parsedData)
-    //       setUserLogin(true)
-    //     }else{
-    //     //   navigation.navigate('Login')
-    //     }
-    //   } catch (error) {
-    //     console.log("Error retrieving the data:", error)
-    //   }
+
   };
 
   const userLogout = async () => {
-    //   const id = await AsyncStorage.getItem('id')
-    //   const useId = `user${JSON.parse(id)}`;
-    //   try {
-    //     await AsyncStorage.multiRemove([useId, 'id']);
-    //     // navigation.replace('Bottom Navigation')
-    //   } catch (error) {
-    //     console.log("Error loggin out the user:", error)
-    //   }
+
   };
 
   const logout = () => {
@@ -73,24 +55,6 @@ export default function ProfileScreen() {
     );
   };
 
-  const clearCache = () => {
-    Alert.alert(
-      "Clear Cache",
-      "Are you sure you want to delete all saved data on your device",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("cancel clear cache"),
-        },
-        {
-          text: "Continue",
-          onPress: () => cacheClear(),
-        },
-        //   {defaultIndex : 1 }
-      ]
-    );
-  };
-
   const deleteAccount = () => {
     Alert.alert(
       "Delete Account",
@@ -108,6 +72,7 @@ export default function ProfileScreen() {
       ]
     );
   };
+  
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.gray} />
@@ -130,7 +95,7 @@ export default function ProfileScreen() {
 
         {userLogin === false ? (
           <TouchableOpacity
-            onPress={() => console.log('navigation.navigate("Login")')}
+            onPress={() => navigate("Login")}
           >
             <View style={styles.loginBtn}>
               <Text style={styles.menuText}>L O G I N </Text>
