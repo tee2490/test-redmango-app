@@ -11,19 +11,19 @@ import { useGetMenuItemByIdQuery } from "../redux/apis/menuItemApi";
 import { useUpdateShoppingCartMutation } from "../redux/apis/shoppingCartApi";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type DetailsScreenNavigationProp = NativeStackNavigationProp<
+type AppNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "MenuItemDetailScreen"
 >;
 
-type DetailsScreenRouteProp = RouteProp<
+type AppRouteProp = RouteProp<
   RootStackParamList,
   "MenuItemDetailScreen"
 >;
 
 type Props = {
-  navigation: DetailsScreenNavigationProp;
-  route: DetailsScreenRouteProp;
+  navigation: AppNavigationProp;
+  route: AppRouteProp;
 };
 //*** navigation&route ***
 

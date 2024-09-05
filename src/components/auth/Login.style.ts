@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
       marginEnd: 5,
       textAlign: "right"
    },
-   inputWrapper:  (borderColor:any) => ({
+   inputWrapper:  (borderColor:string) => ({
       borderColor: borderColor,
       backgroundColor: COLORS.lightWhite,
       borderWidth: 1,

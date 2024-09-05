@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: SIZES.medium,
   },
-  btnStyle: (backgroundColor:any) => ({
+  btnStyle: (backgroundColor:string) => ({
     height: 50,
     width: "100%",
     marginVertical: 10,

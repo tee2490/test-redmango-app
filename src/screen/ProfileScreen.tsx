@@ -49,9 +49,8 @@ export default function ProfileScreen() {
         },
       ],
       {
-        cancelable: true,
-        defaultButton: { index: 1 },
-      }
+         cancelable: true,
+       }
     );
   };
 
@@ -68,8 +67,7 @@ export default function ProfileScreen() {
           text: "Continue",
           onPress: () => console.log("delete account pressed"),
         },
-        //   {defaultIndex : 1 }
-      ]
+        ]
     );
   };
   

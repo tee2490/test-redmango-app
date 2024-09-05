@@ -13,7 +13,7 @@ export default function MenuItemList() {
 
   useEffect(() => {
     if (!isLoading) {
-      dispatch(setMenuItem(data.result));
+      dispatch(setMenuItem(data?.result));
     }
   }, [isLoading]);
 
@@ -24,7 +24,7 @@ export default function MenuItemList() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={data.result}
+        data={data?.result}
         numColumns={2}
         renderItem={({ item }) => <MenuItemCard menuItem={item} />}
         contentContainerStyle={styles.container}

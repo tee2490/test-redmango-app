@@ -4,11 +4,9 @@ import {
   View,
   TouchableOpacity,
   Image,
-  TextInput,
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { RouteProp } from "@react-navigation/native";
@@ -17,19 +15,16 @@ import { RootStackParamList } from "../../navigates/typeRootStack";
 import { LoginSchema } from "../../utils/validator";
 import { COLORS } from "../../common";
 import styles from "./Login.style";
-import { BackBtn, FormButton } from "../../ui";
+import { BackBtn, FormButton, FormInput } from "../../ui";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type LoginNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "Login"
->;
+type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 
-type LoginRouteProp = RouteProp<RootStackParamList, "Login">;
+type AppRouteProp = RouteProp<RootStackParamList, "Login">;
 
 type Props = {
-  navigation: LoginNavigationProp;
-  route: LoginRouteProp;
+  navigation: AppNavigationProp;
+  route: AppRouteProp;
 };
 //*** navigation&route ***
 
@@ -47,7 +42,6 @@ export default function Login({ navigation, route }: Props) {
         text: "Continue",
         onPress: () => {},
       },
-      { defaultIndex: 1 },
     ]);
   };
 
@@ -90,14 +84,8 @@ export default function Login({ navigation, route }: Props) {
                     style={styles.iconStyle}
                   />
 
-                  <TextInput
+                  <FormInput
                     placeholder="Enter email"
-                    onFocus={() => {
-                      setFieldTouched("email");
-                    }}
-                    onBlur={() => {
-                      setFieldTouched("email", "");
-                    }}
                     value={values.email}
                     onChangeText={handleChange("email")}
                     autoCapitalize="none"
@@ -124,15 +112,9 @@ export default function Login({ navigation, route }: Props) {
                     style={styles.iconStyle}
                   />
 
-                  <TextInput
+                  <FormInput
                     secureTextEntry={obsecureText}
                     placeholder="Password"
-                    onFocus={() => {
-                      setFieldTouched("password");
-                    }}
-                    onBlur={() => {
-                      setFieldTouched("password", "");
-                    }}
                     value={values.password}
                     onChangeText={handleChange("password")}
                     autoCapitalize="none"
