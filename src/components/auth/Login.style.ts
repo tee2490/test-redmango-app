@@ -3,7 +3,7 @@ import { COLORS, FONTS, SIZES } from "../../common";
 
 const styles = StyleSheet.create({
    cover: {
-      height: SIZES.height / 2.8,
+      height: SIZES.height / 3,
       width: SIZES.width - 60,
       resizeMode: "contain",
       marginBottom: SIZES.large,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
       marginBottom: SIZES.large
    },
    wrapper: {
-      marginBottom: 20,
+      marginBottom: 15,
    },
    label: {
       fontFamily: FONTS.regular,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
       borderColor: borderColor,
       backgroundColor: COLORS.lightWhite,
       borderWidth: 1,
-      height: 50,
+      height: 40,
       borderRadius: 12,
       flexDirection: 'row',
       paddingHorizontal: 15,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
       fontSize: SIZES.xSmall
    },
    registration: {
-      marginTop: 10,
+      marginTop: 8,
       textAlign: "center",
    },
 });

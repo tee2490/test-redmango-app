@@ -47,6 +47,11 @@ export default function Login({ navigation, route }: Props) {
 
   const login = async (values) => {};
 
+  const initialUserData = {
+    username: "",
+    password: "",
+  };
+
   return (
     <ScrollView>
       <View style={{ marginHorizontal: 20 }}>
@@ -55,7 +60,7 @@ export default function Login({ navigation, route }: Props) {
 
         <Text style={styles.title}>Unlimited Luxurious RedMango</Text>
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={initialUserData}
           validationSchema={LoginSchema}
           onSubmit={(values) => login(values)}
         >
@@ -74,7 +79,7 @@ export default function Login({ navigation, route }: Props) {
                 <Text style={styles.label}>Email</Text>
                 <View
                   style={styles.inputWrapper(
-                    touched.email ? COLORS.secondary : COLORS.offwhite
+                    touched.username ? COLORS.secondary : COLORS.offwhite
                   )}
                 >
                   <MaterialCommunityIcons
@@ -85,16 +90,14 @@ export default function Login({ navigation, route }: Props) {
                   />
 
                   <FormInput
-                    placeholder="Enter email"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    autoCapitalize="none"
-                    autoCorrect={false}
+                    placeholder="User name"
+                    value={values.username}
+                    onChangeText={handleChange("username")}
                     style={{ flex: 1 }}
                   />
                 </View>
-                {touched.email && errors.email && (
-                  <Text style={styles.errorMessage}>{errors.email}</Text>
+                {touched.username && errors.username && (
+                  <Text style={styles.errorMessage}>{errors.username}</Text>
                 )}
               </View>
 
@@ -117,8 +120,6 @@ export default function Login({ navigation, route }: Props) {
                     placeholder="Password"
                     value={values.password}
                     onChangeText={handleChange("password")}
-                    autoCapitalize="none"
-                    autoCorrect={false}
                     style={{ flex: 1 }}
                   />
 

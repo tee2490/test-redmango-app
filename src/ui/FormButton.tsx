@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
   },
   btnStyle: (backgroundColor:string) => ({
-    height: 50,
+    height: 40,
     width: "100%",
-    marginVertical: 10,
+    marginVertical: 8,
     backgroundColor: backgroundColor,
     justifyContent: "center",
     alignItems: "center",
