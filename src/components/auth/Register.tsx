@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
 import { Formik } from "formik";
@@ -16,9 +17,14 @@ import { RegisterSchema } from "../../utils";
 import { COLORS } from "../../common";
 import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
+import { SD_Roles } from "../../common/SD";
+import RNPickerSelect from "react-native-picker-select";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Register">;
+type AppNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Register"
+>;
 
 type AppRouteProp = RouteProp<RootStackParamList, "Register">;
 
@@ -31,6 +37,12 @@ type Props = {
 export default function Register({ navigation, route }: Props) {
   const [loader, setLoader] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
+
+  // Use the enum values for the picker options
+  const userTypeOptions = [
+    { label: "Admin", value: SD_Roles.ADMIN },
+    { label: "Customer", value: SD_Roles.CUTOMER },
+  ];
 
   const inValidForm = () => {
     Alert.alert("Invalid Form", "Please provide all required fields", [
@@ -51,7 +63,7 @@ export default function Register({ navigation, route }: Props) {
     username: "",
     password: "",
     name: "",
-    role: ""
+    role: "",
   };
 
   return (
@@ -75,6 +87,7 @@ export default function Register({ navigation, route }: Props) {
             errors,
             isValid,
             setFieldTouched,
+            setFieldValue,
           }) => (
             <View>
               <View style={styles.wrapper}>
@@ -165,7 +178,7 @@ export default function Register({ navigation, route }: Props) {
               </View>
 
               <View style={styles.wrapper}>
-                  <View
+                <View
                   style={styles.inputWrapper(
                     touched.role ? COLORS.secondary : COLORS.offwhite
                   )}
@@ -177,12 +190,15 @@ export default function Register({ navigation, route }: Props) {
                     style={styles.iconStyle}
                   />
 
-                  <FormInput
-                    placeholder="Role"
-                    value={values.role}
-                    onChangeText={handleChange("role")}
-                    style={{ flex: 1 }}
-                  />
+                  <View style={pickerStyle.container}>
+                    <RNPickerSelect
+                      style={{ inputAndroid: { color: COLORS.primary } }}
+                      onValueChange={(value) => setFieldValue("role", value)}
+                      items={userTypeOptions}
+                      placeholder={{ label: "Select...", value: null }}
+                      value={values.role}
+                    />
+                  </View>
                 </View>
                 {touched.role && errors.role && (
                   <Text style={styles.errorMessage}>{errors.role}</Text>
@@ -195,7 +211,6 @@ export default function Register({ navigation, route }: Props) {
                 onPress={isValid ? handleSubmit : inValidForm}
                 isValid={isValid}
               />
-
             </View>
           )}
         </Formik>
@@ -203,3 +218,11 @@ export default function Register({ navigation, route }: Props) {
     </ScrollView>
   );
 }
+
+const pickerStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginLeft: -15,
+    marginRight: -15,
+  },
+});
