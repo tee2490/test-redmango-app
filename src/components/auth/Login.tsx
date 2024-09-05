@@ -12,10 +12,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigates/typeRootStack";
-import { LoginSchema } from "../../utils/validator";
 import { COLORS } from "../../common";
 import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
+import { LoginSchema } from "../../utils";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -76,14 +76,14 @@ export default function Login({ navigation, route }: Props) {
           }) => (
             <View>
               <View style={styles.wrapper}>
-                <Text style={styles.label}>Email</Text>
+                <Text style={styles.label}>User name</Text>
                 <View
                   style={styles.inputWrapper(
                     touched.username ? COLORS.secondary : COLORS.offwhite
                   )}
                 >
                   <MaterialCommunityIcons
-                    name="email-outline"
+                    name="account-outline"
                     size={20}
                     color={COLORS.gray}
                     style={styles.iconStyle}

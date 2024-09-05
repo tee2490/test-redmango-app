@@ -1,4 +1,4 @@
 
-import { PickupDetailsSchema  } from './validator'
+import { PickupDetailsSchema,LoginSchema,RegisterSchema  } from './validator'
 
-export { PickupDetailsSchema };
+export { PickupDetailsSchema, LoginSchema, RegisterSchema };

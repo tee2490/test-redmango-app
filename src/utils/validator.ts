@@ -20,4 +20,13 @@ const LoginSchema = Yup.object().shape({
     .required("Required"),
 });
 
-export { PickupDetailsSchema, LoginSchema };
+const RegisterSchema = Yup.object().shape({
+  username: Yup.string().required("Required"),
+  password: Yup.string()
+    .min(3, "Password must be at least 8 character")
+    .required("Required"),
+    name: Yup.string().required("Required"),
+    role: Yup.string().required("Required"),
+});
+
+export { PickupDetailsSchema, LoginSchema, RegisterSchema };
