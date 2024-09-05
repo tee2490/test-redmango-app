@@ -19,6 +19,8 @@ import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
 import { SD_Roles } from "../../common/SD";
 import RNPickerSelect from "react-native-picker-select";
+import { useRegisterUserMutation } from "../../redux/apis/authApi";
+import { apiResponse } from "../../interfaces";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<
@@ -35,6 +37,9 @@ type Props = {
 //*** navigation&route ***
 
 export default function Register({ navigation, route }: Props) {
+  const [registerUser] = useRegisterUserMutation();
+  const [loading, setLoading] = useState(false);
+
   const [loader, setLoader] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
 
@@ -57,7 +62,25 @@ export default function Register({ navigation, route }: Props) {
     ]);
   };
 
-  const login = async (values) => {};
+  const register = async (values) => {
+    const userInput = values;
+    console.log(userInput);
+
+    setLoading(true);
+    const response: apiResponse = await registerUser({
+      userName: userInput.username,
+      password: userInput.password,
+      role: userInput.role,
+      name: userInput.name,
+    });
+    if (response.data) {
+      console.log(response.data);
+    } else if (response.error) {
+      console.log(response.error.data.errorMessages[0]);
+    }
+
+    setLoading(false);
+  };
 
   const initialUserData = {
     username: "",
@@ -76,7 +99,7 @@ export default function Register({ navigation, route }: Props) {
         <Formik
           initialValues={initialUserData}
           validationSchema={RegisterSchema}
-          onSubmit={(values) => login(values)}
+          onSubmit={(values) => register(values)}
         >
           {({
             handleChange,
