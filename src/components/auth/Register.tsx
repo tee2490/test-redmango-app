@@ -73,7 +73,7 @@ export default function Register({ navigation, route }: Props) {
 
     setTimeout(() => {
       setLoading(false);
-     }, 5000);
+     }, 500);
   };
 
   const initialUserData: registerDto = {

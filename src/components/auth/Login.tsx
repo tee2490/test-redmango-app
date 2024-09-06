@@ -17,6 +17,8 @@ import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
 import { LoginSchema } from "../../utils";
 import { loginDto } from "../../interfaces/dto";
+import { apiResponse } from "../../interfaces";
+import { useLoginUserMutation } from "../../redux/apis/authApi";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -30,7 +32,9 @@ type Props = {
 //*** navigation&route ***
 
 export default function Login({ navigation, route }: Props) {
-  const [loading, setloading] = useState(false);
+  const [error, setError] = useState("");
+  const [loginUser] = useLoginUserMutation();
+  const [loading, setLoading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
 
   const inValidForm = () => {
@@ -46,9 +50,25 @@ export default function Login({ navigation, route }: Props) {
     ]);
   };
 
-  const login = async (values) => {};
+  const login = async (userInput: loginDto) => {
+    setLoading(true);
+    const response: apiResponse = await loginUser({
+      userName: userInput.username,
+      password: userInput.password,
+    });
+    if (response.data) {
+      console.log(response.data);
+    } else if (response.error) {
+      console.log(response.error.data.errorMessages[0]);
+      setError(response.error.data.errorMessages[0]);
+    }
 
-  const initialUserData : loginDto = {
+    setTimeout(() => {
+      setLoading(false);
+     }, 500);
+  };
+
+  const initialUserData: loginDto = {
     username: "",
     password: "",
   };
