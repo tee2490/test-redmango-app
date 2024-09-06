@@ -19,6 +19,7 @@
     "expo-font": "^12.0.9",
     "expo-status-bar": "~1.12.1",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "react": "18.2.0",
     "react-native": "0.74.5",
     "react-native-gesture-handler": "^2.18.1",

@@ -17,9 +17,12 @@ import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
 import { LoginSchema } from "../../utils";
 import { loginDto } from "../../interfaces/dto";
-import { apiResponse } from "../../interfaces";
+import { apiResponse, userModel } from "../../interfaces";
 import { useLoginUserMutation } from "../../redux/apis/authApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { setLoggedInUser } from "../../redux/userAuthSlice";
+import { jwtDecode } from "jwt-decode";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -33,6 +36,7 @@ type Props = {
 //*** navigation&route ***
 
 export default function Login({ navigation, route }: Props) {
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [loginUser] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
@@ -61,6 +65,9 @@ export default function Login({ navigation, route }: Props) {
       console.log(response.data);
       const { token } = response.data.result;
       AsyncStorage.setItem("token", token);
+
+      const { fullName, id, email, role }: userModel = jwtDecode(token);
+      dispatch(setLoggedInUser({ fullName, id, email, role }));
     } else if (response.error) {
       console.log(response.error.data.errorMessages[0]);
       setError(response.error.data.errorMessages[0]);
