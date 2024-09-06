@@ -7,13 +7,13 @@ import {
 import React from "react";
 import { COLORS, FONTS, SIZES } from "../common";
 
-const Button = ({ title, onPress, isValid, loader } : any) => {
+const Button = ({ title, onPress, isValid, loader }: any) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={styles.btnStyle(!isValid ?  COLORS.gray: COLORS.primary)}
+      style={styles.btnStyle(!isValid ? COLORS.gray : COLORS.primary)}
     >
-      {!loader  ? (
+      {!loader ? (
         <Text style={styles.btnTxt}>{title}</Text>
       ) : (
         <ActivityIndicator />
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: SIZES.medium,
   },
-  btnStyle: (backgroundColor:string) => ({
+  btnStyle: (backgroundColor: string) => ({
     height: 40,
     width: "100%",
     marginVertical: 8,

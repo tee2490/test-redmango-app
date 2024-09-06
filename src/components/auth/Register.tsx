@@ -21,6 +21,7 @@ import { SD_Roles } from "../../common/SD";
 import RNPickerSelect from "react-native-picker-select";
 import { useRegisterUserMutation } from "../../redux/apis/authApi";
 import { apiResponse } from "../../interfaces";
+import { registerUser } from "../../interfaces/dto";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<
@@ -52,20 +53,13 @@ export default function Register({ navigation, route }: Props) {
   const inValidForm = () => {
     Alert.alert("Invalid Form", "Please provide all required fields", [
       {
-        text: "Cancel",
-        onPress: () => {},
-      },
-      {
-        text: "Continue",
+        text: "Close",
         onPress: () => {},
       },
     ]);
   };
 
-  const register = async (values) => {
-    const userInput = values;
-    console.log(userInput);
-
+  const register = async (userInput: registerUser) => {
     setLoading(true);
     const response: apiResponse = await registerUser({
       userName: userInput.username,
@@ -82,7 +76,7 @@ export default function Register({ navigation, route }: Props) {
     setLoading(false);
   };
 
-  const initialUserData = {
+  const initialUserData: registerUser = {
     username: "",
     password: "",
     name: "",

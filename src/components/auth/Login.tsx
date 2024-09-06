@@ -16,6 +16,7 @@ import { COLORS } from "../../common";
 import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
 import { LoginSchema } from "../../utils";
+import { loginUser } from "../../interfaces/dto";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -47,7 +48,7 @@ export default function Login({ navigation, route }: Props) {
 
   const login = async (values) => {};
 
-  const initialUserData = {
+  const initialUserData : loginUser = {
     username: "",
     password: "",
   };
