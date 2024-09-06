@@ -23,6 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../../redux/userAuthSlice";
 import { jwtDecode } from "jwt-decode";
+import { showMessage } from "react-native-flash-message";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -73,6 +74,14 @@ export default function Login({ navigation, route }: Props) {
     } else if (response.error) {
       console.log(response.error.data.errorMessages[0]);
       setError(response.error.data.errorMessages[0]);
+
+      showMessage({
+        message: error,
+        type:'warning',
+        backgroundColor: COLORS.tertiary,
+        color: COLORS.white,
+        icon: { icon:'auto', position: 'left' } // Icon auto-detected by type or custom icon
+      });
     }
 
     setTimeout(() => {

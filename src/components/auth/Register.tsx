@@ -22,6 +22,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { useRegisterUserMutation } from "../../redux/apis/authApi";
 import { apiResponse } from "../../interfaces";
 import { registerDto } from "../../interfaces/dto";
+import { showMessage } from "react-native-flash-message";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<
@@ -38,6 +39,7 @@ type Props = {
 //*** navigation&route ***
 
 export default function Register({ navigation, route }: Props) {
+  const [error, setError] = useState("");
   const [registerUser] = useRegisterUserMutation();
   const [loading, setLoading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
@@ -67,8 +69,18 @@ export default function Register({ navigation, route }: Props) {
     });
     if (response.data) {
       console.log(response.data);
+      navigation.replace('ProfileScreen')
     } else if (response.error) {
       console.log(response.error.data.errorMessages[0]);
+
+      setError(response.error.data.errorMessages[0])
+      showMessage({
+        message: error,
+        type:'warning',
+        backgroundColor: COLORS.red,
+        color: COLORS.white,
+        icon: { icon:'auto', position: 'left' } // Icon auto-detected by type or custom icon
+      });
     }
 
     setTimeout(() => {

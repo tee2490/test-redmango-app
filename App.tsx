@@ -3,6 +3,7 @@ import { Text } from "react-native";
 import { MainNavigators } from "./src/navigates";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
+import FlashMessage from "react-native-flash-message";
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -23,6 +24,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <MainNavigators />
+      <FlashMessage position="bottom" />
     </Provider>
   );
 }
