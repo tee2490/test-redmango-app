@@ -19,6 +19,7 @@ import { LoginSchema } from "../../utils";
 import { loginDto } from "../../interfaces/dto";
 import { apiResponse } from "../../interfaces";
 import { useLoginUserMutation } from "../../redux/apis/authApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -58,6 +59,8 @@ export default function Login({ navigation, route }: Props) {
     });
     if (response.data) {
       console.log(response.data);
+      const { token } = response.data.result;
+      AsyncStorage.setItem("token", token);
     } else if (response.error) {
       console.log(response.error.data.errorMessages[0]);
       setError(response.error.data.errorMessages[0]);
