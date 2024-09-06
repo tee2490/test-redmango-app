@@ -1,11 +1,5 @@
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
-import React, { useState, useEffect } from "react";
+import { Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   AntDesign,
@@ -17,22 +11,17 @@ import styles from "./ProfileScreen.style";
 import { COLORS } from "../common";
 import { RootStackParamList } from "../navigates/typeRootStack";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { userModel } from "../interfaces";
 
 export default function ProfileScreen() {
+  const userData: userModel = useSelector(
+    (state: RootState) => state.userAuthStore
+  );
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
-  const [userLogin, setUserLogin] = useState(false);
 
-  useEffect(() => {
-    checkExistingUser();
-  }, []);
-
-  const checkExistingUser = async () => {
-
-  };
-
-  const userLogout = async () => {
-
-  };
+  const userLogout = async () => {};
 
   const logout = () => {
     Alert.alert(
@@ -49,8 +38,8 @@ export default function ProfileScreen() {
         },
       ],
       {
-         cancelable: true,
-       }
+        cancelable: true,
+      }
     );
   };
 
@@ -67,10 +56,10 @@ export default function ProfileScreen() {
           text: "Continue",
           onPress: () => console.log("delete account pressed"),
         },
-        ]
+      ]
     );
   };
-  
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.gray} />
@@ -86,28 +75,22 @@ export default function ProfileScreen() {
         />
 
         <Text style={styles.name}>
-          {userLogin === true
-            ? "userData.username"
-            : "Please login into your account"}
+          {userData.id ? userData.fullName : "Please login into your account"}
         </Text>
 
-        {userLogin === false ? (
-          <TouchableOpacity
-            onPress={() => navigate("Login")}
-          >
+        {!userData.id ? (
+          <TouchableOpacity onPress={() => navigate("Login")}>
             <View style={styles.loginBtn}>
               <Text style={styles.menuText}>L O G I N </Text>
             </View>
           </TouchableOpacity>
         ) : (
           <View style={styles.loginBtn}>
-            <Text style={styles.menuText}>{"userData.email"} </Text>
+            <Text style={styles.menuText}>{userData.email} </Text>
           </View>
         )}
 
-        {userLogin === !false ? (
-          <View></View>
-        ) : (
+        {userData.id && (
           <View style={styles.menuWrapper}>
             <TouchableOpacity
               onPress={() => console.log("navigation.navigate('Orders')")}
