@@ -64,10 +64,12 @@ export default function Login({ navigation, route }: Props) {
     if (response.data) {
       console.log(response.data);
       const { token } = response.data.result;
-      AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("token", token);
 
       const { fullName, id, email, role }: userModel = jwtDecode(token);
       dispatch(setLoggedInUser({ fullName, id, email, role }));
+
+      navigation.replace('ProfileScreen');
     } else if (response.error) {
       console.log(response.error.data.errorMessages[0]);
       setError(response.error.data.errorMessages[0]);
@@ -79,14 +81,14 @@ export default function Login({ navigation, route }: Props) {
   };
 
   const initialUserData: loginDto = {
-    username: "",
-    password: "",
+    username: "admin",
+    password: "123",
   };
 
   return (
     <ScrollView>
       <View style={{ marginHorizontal: 20 }}>
-        <BackBtn onPress={() => navigation.goBack()} />
+        <BackBtn onPress={() => navigation.replace("ProfileScreen")} />
         <Image source={require("../../Images/bk.png")} style={styles.cover} />
 
         <Text style={styles.title}>Unlimited Luxurious RedMango</Text>

@@ -11,17 +11,23 @@ import styles from "./ProfileScreen.style";
 import { COLORS } from "../common";
 import { RootStackParamList } from "../navigates/typeRootStack";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { userModel } from "../interfaces";
+import { emptyUserState, setLoggedInUser } from "../redux/userAuthSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileScreen() {
+  const dispatch = useDispatch();
   const userData: userModel = useSelector(
     (state: RootState) => state.userAuthStore
   );
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const userLogout = async () => {};
+  const userLogout = async () => {
+    await AsyncStorage.removeItem("token");
+    dispatch(setLoggedInUser({ ...emptyUserState }));
+  };
 
   const logout = () => {
     Alert.alert(
