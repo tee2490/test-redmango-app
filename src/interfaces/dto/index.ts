@@ -1,4 +1,4 @@
-import { registerUser } from "./userDto";
-import { loginUser } from "./userDto";
+import { registerDto } from "./userDto";
+import { loginDto } from "./userDto";
 
-export {registerUser,loginUser}
+export {registerDto,loginDto}

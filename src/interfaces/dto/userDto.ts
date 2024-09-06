@@ -1,11 +1,11 @@
-export interface registerUser {
+export interface registerDto {
   username: string;
   password: string;
   name: string;
   role: string;
 }
 
-export interface loginUser {
+export interface loginDto {
   username: string;
   password: string;
 }

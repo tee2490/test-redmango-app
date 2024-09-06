@@ -7,13 +7,13 @@ import {
 import React from "react";
 import { COLORS, FONTS, SIZES } from "../common";
 
-const Button = ({ title, onPress, isValid, loader }: any) => {
+const Button = ({ title, onPress, isValid, loading }: any) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={styles.btnStyle(!isValid ? COLORS.gray : COLORS.primary)}
     >
-      {!loader ? (
+      {!loading ? (
         <Text style={styles.btnTxt}>{title}</Text>
       ) : (
         <ActivityIndicator />

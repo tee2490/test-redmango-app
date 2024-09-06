@@ -16,7 +16,7 @@ import { COLORS } from "../../common";
 import styles from "./Login.style";
 import { BackBtn, FormButton, FormInput } from "../../ui";
 import { LoginSchema } from "../../utils";
-import { loginUser } from "../../interfaces/dto";
+import { loginDto } from "../../interfaces/dto";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -30,7 +30,7 @@ type Props = {
 //*** navigation&route ***
 
 export default function Login({ navigation, route }: Props) {
-  const [loader, setLoader] = useState(false);
+  const [loading, setloading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
 
   const inValidForm = () => {
@@ -48,7 +48,7 @@ export default function Login({ navigation, route }: Props) {
 
   const login = async (values) => {};
 
-  const initialUserData : loginUser = {
+  const initialUserData : loginDto = {
     username: "",
     password: "",
   };
@@ -141,7 +141,7 @@ export default function Login({ navigation, route }: Props) {
               </View>
 
               <FormButton
-                loader={loader}
+                loading={loading}
                 title={"L O G I N"}
                 onPress={isValid ? handleSubmit : inValidForm}
                 isValid={isValid}

@@ -21,7 +21,7 @@ import { SD_Roles } from "../../common/SD";
 import RNPickerSelect from "react-native-picker-select";
 import { useRegisterUserMutation } from "../../redux/apis/authApi";
 import { apiResponse } from "../../interfaces";
-import { registerUser } from "../../interfaces/dto";
+import { registerDto } from "../../interfaces/dto";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<
@@ -40,8 +40,6 @@ type Props = {
 export default function Register({ navigation, route }: Props) {
   const [registerUser] = useRegisterUserMutation();
   const [loading, setLoading] = useState(false);
-
-  const [loader, setLoader] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
 
   // Use the enum values for the picker options
@@ -59,7 +57,7 @@ export default function Register({ navigation, route }: Props) {
     ]);
   };
 
-  const register = async (userInput: registerUser) => {
+  const register = async (userInput: registerDto) => {
     setLoading(true);
     const response: apiResponse = await registerUser({
       userName: userInput.username,
@@ -73,10 +71,12 @@ export default function Register({ navigation, route }: Props) {
       console.log(response.error.data.errorMessages[0]);
     }
 
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+     }, 5000);
   };
 
-  const initialUserData: registerUser = {
+  const initialUserData: registerDto = {
     username: "",
     password: "",
     name: "",
@@ -223,7 +223,7 @@ export default function Register({ navigation, route }: Props) {
               </View>
 
               <FormButton
-                loader={loader}
+                loading={loading}
                 title={"R E G I S T E R"}
                 onPress={isValid ? handleSubmit : inValidForm}
                 isValid={isValid}
