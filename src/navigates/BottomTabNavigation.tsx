@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen, ProfileScreen, ShoppingCartScreen } from "../screen";
@@ -7,13 +7,11 @@ import StackNavigation from "./StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { SIZES } from "../common";
 import { useDispatch, useSelector } from "react-redux";
-import { userTest } from "../common/SD";
 import { useGetShoppingCartQuery } from "../redux/apis/shoppingCartApi";
 import { setShoppingCart } from "../redux/shoppingCartSlice";
 import { Badge } from "react-native-paper";
 import { cartItemModel, userModel } from "../interfaces";
 import { RootState } from "../redux/store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +26,7 @@ export default function BottomTabNavigation() {
 
   const dispatch = useDispatch();
 
-  const { data, isLoading } = useGetShoppingCartQuery(userTest);
+  const { data, isLoading } = useGetShoppingCartQuery(userData.id);
 
   useEffect(() => {
     if (!isLoading) {

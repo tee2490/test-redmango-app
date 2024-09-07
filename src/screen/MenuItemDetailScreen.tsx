@@ -61,7 +61,7 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
     const response = await updateShoppingCart({
       menuItemId: menuItemId,
       updateQuantityBy: quantity,
-      userId: userTest,
+      userId: userData.id,
     });
 
     console.log(response);

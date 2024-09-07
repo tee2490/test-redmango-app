@@ -4,7 +4,7 @@ import { menuItemModel, userModel } from "../../interfaces";
 import styles from "./MenuItemCard.style";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, MiniLoader } from "../../common";
-import { baseUrl, userTest } from "../../common/SD";
+import { baseUrl } from "../../common/SD";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigates/typeRootStack";
 import { useUpdateShoppingCartMutation } from "../../redux/apis/shoppingCartApi";
@@ -34,7 +34,7 @@ export default function MenuItemCard(item: Props) {
     const response = await updateShoppingCart({
       menuItemId: menuItemId,
       updateQuantityBy: 1,
-      userId: userTest,
+      userId: userData.id,
     });
 
     console.log(response);
