@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen, ProfileScreen, ShoppingCartScreen } from "../screen";
@@ -11,12 +11,17 @@ import { userTest } from "../common/SD";
 import { useGetShoppingCartQuery } from "../redux/apis/shoppingCartApi";
 import { setShoppingCart } from "../redux/shoppingCartSlice";
 import { Badge } from "react-native-paper";
-import { cartItemModel } from "../interfaces";
+import { cartItemModel, userModel } from "../interfaces";
 import { RootState } from "../redux/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigation() {
+  const userData: userModel = useSelector(
+    (state: RootState) => state.userAuthStore
+  );
+
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
@@ -63,7 +68,6 @@ export default function BottomTabNavigation() {
                 iconName = "person";
               }
 
-
               // You can return any component that you like here!
               return <Ionicons name={iconName} size={size} color={color} />;
             },
@@ -73,7 +77,9 @@ export default function BottomTabNavigation() {
           })}
         >
           <Tab.Screen name="HOME" component={StackNavigation} />
-          <Tab.Screen name="CART" component={ShoppingCartScreen} />
+          {userData?.id.length > 0 && (
+            <Tab.Screen name="CART" component={ShoppingCartScreen} />
+          )}
           <Tab.Screen name="SETTING" component={HomeScreen} />
           <Tab.Screen name="PROFILE" component={ProfileScreen} />
         </Tab.Navigator>
@@ -87,6 +93,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
-    paddingTop: SIZES.xLarge ,
+    paddingTop: SIZES.xLarge,
   },
 });
