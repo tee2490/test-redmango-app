@@ -39,7 +39,6 @@ type Props = {
 //*** navigation&route ***
 
 export default function Register({ navigation, route }: Props) {
-  const [error, setError] = useState("");
   const [registerUser] = useRegisterUserMutation();
   const [loading, setLoading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
@@ -69,30 +68,27 @@ export default function Register({ navigation, route }: Props) {
     });
     if (response.data) {
       console.log(response.data);
-      navigation.replace('ProfileScreen')
+      navigation.replace("ProfileScreen");
     } else if (response.error) {
-      console.log(response.error.data.errorMessages[0]);
-
-      setError(response.error.data.errorMessages[0])
       showMessage({
-        message: error,
-        type:'warning',
+        message: response.error.data.errorMessages[0],
+        type: "warning",
         backgroundColor: COLORS.red,
         color: COLORS.white,
-        icon: { icon:'auto', position: 'left' } // Icon auto-detected by type or custom icon
+        icon: { icon: "auto", position: "left" }, // Icon auto-detected by type or custom icon
       });
     }
 
     setTimeout(() => {
       setLoading(false);
-     }, 500);
+    }, 500);
   };
 
   const initialUserData: registerDto = {
-    username: "",
-    password: "",
-    name: "",
-    role: "",
+    username: "admin",
+    password: "123",
+    name: "admin",
+    role: "admin",
   };
 
   return (

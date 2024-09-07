@@ -38,7 +38,6 @@ type Props = {
 
 export default function Login({ navigation, route }: Props) {
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
   const [loginUser] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
@@ -62,6 +61,7 @@ export default function Login({ navigation, route }: Props) {
       userName: userInput.username,
       password: userInput.password,
     });
+
     if (response.data) {
       console.log(response.data);
       const { token } = response.data.result;
@@ -70,23 +70,20 @@ export default function Login({ navigation, route }: Props) {
       const { fullName, id, email, role }: userModel = jwtDecode(token);
       dispatch(setLoggedInUser({ fullName, id, email, role }));
 
-      navigation.replace('ProfileScreen');
+      navigation.replace("ProfileScreen");
     } else if (response.error) {
-      console.log(response.error.data.errorMessages[0]);
-      setError(response.error.data.errorMessages[0]);
-
       showMessage({
-        message: error,
-        type:'warning',
+        message: response.error.data.errorMessages[0],
+        type: "warning",
         backgroundColor: COLORS.tertiary,
         color: COLORS.white,
-        icon: { icon:'auto', position: 'left' } // Icon auto-detected by type or custom icon
+        icon: { icon: "auto", position: "left" }, // Icon auto-detected by type or custom icon
       });
     }
 
     setTimeout(() => {
       setLoading(false);
-     }, 500);
+    }, 500);
   };
 
   const initialUserData: loginDto = {
