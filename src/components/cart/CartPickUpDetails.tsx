@@ -9,8 +9,10 @@ import { PickupDetailsSchema } from "../../utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { cartItemModel } from "../../interfaces";
+import { cartPickUpDto } from "../../interfaces/dto";
 
 const CartPickUpDetails: React.FC = () => {
+  const userData = useSelector((state: RootState) => state.userAuthStore);
   const [loading, setLoading] = useState(false);
 
   const shoppingCartFromStore: cartItemModel[] = useSelector(
@@ -25,10 +27,10 @@ const CartPickUpDetails: React.FC = () => {
     return null;
   });
 
-  const initialUserData = {
-    name: "",
-    email: "",
-    phoneNumber: "",
+  const initialUserData : cartPickUpDto = {
+    name: userData.fullName!,
+    email: userData.email,
+    phoneNumber: "12345",
   };
 
   return (

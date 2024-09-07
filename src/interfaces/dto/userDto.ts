@@ -10,3 +10,8 @@ export interface loginDto {
   password: string;
 }
 
+export interface cartPickUpDto {
+  name: string;
+  email: string;
+  phoneNumber: string;
+};
