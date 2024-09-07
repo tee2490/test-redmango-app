@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import React, { useState } from "react";
-import { RouteProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useNavigation } from "@react-navigation/native";
 import { Ionicons, SimpleLineIcons, Fontisto } from "@expo/vector-icons";
 import styles from "./MenuItemDetailScreen.style";
 import { COLORS, MiniLoader } from "../common";
@@ -9,6 +9,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { baseUrl, userTest } from "../common/SD";
 import { useGetMenuItemByIdQuery } from "../redux/apis/menuItemApi";
 import { useUpdateShoppingCartMutation } from "../redux/apis/shoppingCartApi";
+import { userModel } from "../interfaces";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<
@@ -32,6 +35,10 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
   const { data: item, isLoading } = useGetMenuItemByIdQuery(id);
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
+  const userData: userModel = useSelector(
+    (state: RootState) => state.userAuthStore
+  );
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -45,6 +52,10 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
   };
 
   const handleAddToCart = async (menuItemId: number) => {
+    if (!userData.id) {
+      navigate("Login");
+    }
+
     setIsAddingToCart(true);
 
     const response = await updateShoppingCart({
