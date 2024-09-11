@@ -8,10 +8,15 @@ import { COLORS, MiniLoader } from "../../common";
 import { PickupDetailsSchema } from "../../utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { cartItemModel } from "../../interfaces";
+import { apiResponse, cartItemModel } from "../../interfaces";
 import { cartPickUpDto } from "../../interfaces/dto";
+import { useInitiatePaymentMutation } from "../../redux/apis/paymentApi";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigates/typeRootStack";
 
 const CartPickUpDetails: React.FC = () => {
+  const [initiatePayment] = useInitiatePaymentMutation();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const userData = useSelector((state: RootState) => state.userAuthStore);
   const [loading, setLoading] = useState(false);
 
@@ -27,23 +32,34 @@ const CartPickUpDetails: React.FC = () => {
     return null;
   });
 
-  const initialUserData : cartPickUpDto = {
+  const initialUserData: cartPickUpDto = {
     name: userData.fullName!,
-    email: userData.email,
-    phoneNumber: "12345",
+    email: "Test@email.com",
+    phoneNumber: "1234567",
+  };
+
+  const onSubmit = async (userInput: cartPickUpDto) => {
+    setLoading(true);
+
+    //const { data }: apiResponse = await initiatePayment(userData.id);
+    //const orderSummary = { grandTotal, totalItems };
+
+    //console.log(data)
+
+    navigate("PaymentScreen", {
+      state: { apiResult: "TestResult", userInput },
+    });
+    setLoading(false);
+    // navigate("PaymentScreen", {
+    //   state: { apiResult: data?.result, userInput },
+    // });
   };
 
   return (
     <Formik
       initialValues={initialUserData}
       validationSchema={PickupDetailsSchema}
-      onSubmit={(values) => {
-        console.log(values);
-        // Handle form submission
-        setLoading(true);
-
-        setTimeout(() => setLoading(false), 5000);
-      }}
+      onSubmit={(values) => onSubmit(values)}
     >
       {({
         handleChange,
@@ -97,7 +113,7 @@ const CartPickUpDetails: React.FC = () => {
               <MiniLoader />
             ) : (
               <Button
-                onPress={()=>handleSubmit()}
+                onPress={() => handleSubmit()}
                 title="Looks Good? Place Order!"
                 color={COLORS.green}
                 disabled={!isValid}
