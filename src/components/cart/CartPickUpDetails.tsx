@@ -41,18 +41,13 @@ const CartPickUpDetails: React.FC = () => {
   const onSubmit = async (userInput: cartPickUpDto) => {
     setLoading(true);
 
-    //const { data }: apiResponse = await initiatePayment(userData.id);
-    //const orderSummary = { grandTotal, totalItems };
-
-    //console.log(data)
+    const { data }: apiResponse = await initiatePayment(userData.id);
+    const orderSummary = { grandTotal, totalItems };
 
     navigate("PaymentScreen", {
-      state: { apiResult: "TestResult", userInput },
+      state: { apiResult: data?.result, userInput },
     });
     setLoading(false);
-    // navigate("PaymentScreen", {
-    //   state: { apiResult: data?.result, userInput },
-    // });
   };
 
   return (
