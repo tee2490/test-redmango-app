@@ -6,7 +6,7 @@ import { RouteProp } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SIZES } from "../common";
 import { CartPickUpDetails } from "../components/cart";
-import { OrderSummary } from "../components/Order";
+import { OrderSummary } from "../components/order";
 import { PaymentForm } from "../components/Payment";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
@@ -40,7 +40,10 @@ export default function PaymentScreen({ navigation, route }: Props) {
 
   return (
     <StripeProvider publishableKey={publishableKey}>
+      <View style={{ flex: 1 }}>
+      <OrderSummary/>
       <PaymentForm />
+      </View>
     </StripeProvider>
   );
 }
