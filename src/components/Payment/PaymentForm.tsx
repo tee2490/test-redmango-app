@@ -6,12 +6,15 @@ import { orderSummaryProps } from "../order/orderSummaryProps";
 import { apiResponse, cartItemModel } from "../../interfaces";
 import { SD_Status } from "../../common/SD";
 import { useCreateOrderMutation } from "../../redux/apis/orderApi";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigates/typeRootStack";
 
 //ให้นำของเดิมมาจาก Stripe Dashboard ใช้สำหรับทดสอบเท่านั้น
 const testClientSecret =
   "pi_3PxO5xLEJFIvBBF20kVW3KVi_secret_X4HLMb4ctmg68EGhD1wQEdIuw";
 
 export default function PaymentForm({data,userInput,clientSecret }: orderSummaryProps) {
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const [createOrder] = useCreateOrderMutation();
   const { initPaymentSheet, presentPaymentSheet, retrievePaymentIntent } = useStripe();
   const [loading, setLoading] = useState(false);
@@ -39,7 +42,6 @@ export default function PaymentForm({data,userInput,clientSecret }: orderSummary
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
-      Alert.alert("Success", "Your order is confirmed!");
       const { paymentIntent } = await retrievePaymentIntent(clientSecret);
 
       // มาจาก Post : /api/Order
@@ -91,7 +93,11 @@ export default function PaymentForm({data,userInput,clientSecret }: orderSummary
             : SD_Status.PENDING,
       });
 
-      console.log(response);
+      if (response) {
+        if (response.data?.result.status === SD_Status.CONFIRMED) {
+          navigate("OrderConfirmed", {id : response.data.result.orderHeaderId})
+        }
+      }
     } //ปีกกาของ else
   };
 

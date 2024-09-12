@@ -6,4 +6,5 @@ export type RootStackParamList = {
   ProfileScreen: undefined;
   Login : undefined;
   Register : undefined;
+  OrderConfirmed : {id : any};
 };

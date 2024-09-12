@@ -1,3 +1,4 @@
 import OrderSummary from "./OrderSummary";
+import OrderConfirmed from "./OrderConfirmed";
 
-export {OrderSummary}
+export {OrderSummary,OrderConfirmed}

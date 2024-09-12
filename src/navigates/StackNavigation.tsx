@@ -10,6 +10,7 @@ import {
 } from "../screen";
 import { RootStackParamList } from "./typeRootStack";
 import { Login, Register } from "../components/auth";
+import { OrderConfirmed } from "../components/order";
 
 //ประกาศ RootStackParamList กำหนดพารามิเตอร์สำหรับส่งจาก Screen to Screen
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -57,6 +58,12 @@ export default function StackNavigation() {
         <Stack.Screen
           name="PaymentScreen"
           component={PaymentScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="OrderConfirmed"
+          component={OrderConfirmed}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
