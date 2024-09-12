@@ -6,15 +6,18 @@ import { FormButton } from "../../ui";
 //ให้นำของเดิมมาจาก Stripe Dashboard ใช้สำหรับทดสอบเท่านั้น
 const testClientSecret = "pi_3PxO5xLEJFIvBBF20kVW3KVi_secret_X4HLMb4ctmg68EGhD1wQEdIuw"
 
-export default function CheckoutScreen() {
+interface Props {
+  clientSecret : string
+}
+
+export default function PaymentForm({clientSecret}:Props) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
 
   const initializePaymentSheet = async () => {
     const { error } = await initPaymentSheet({
       merchantDisplayName: "Coms, Inc.",
-      paymentIntentClientSecret:
-        testClientSecret,
+      paymentIntentClientSecret: clientSecret,
       allowsDelayedPaymentMethods: true,
       defaultBillingDetails: {
         name: "Teeradet",
