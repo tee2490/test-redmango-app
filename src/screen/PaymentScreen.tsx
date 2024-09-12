@@ -42,7 +42,11 @@ export default function PaymentScreen({ navigation, route }: Props) {
           <OrderSummary data={state.apiResult} userInput={state.userInput} />
         </View>
         <View style={{ flex: 0.2 }}>
-          <PaymentForm clientSecret={state.apiResult.clientSecret}/>
+          <PaymentForm
+            data={state.apiResult}
+            userInput={state.userInput}
+            clientSecret={state.apiResult.clientSecret}
+          />
         </View>
       </View>
     </StripeProvider>

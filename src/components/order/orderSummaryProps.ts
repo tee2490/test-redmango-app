@@ -11,4 +11,5 @@ export interface orderSummaryProps {
         email: string;
         phoneNumber: string;
     };
+    clientSecret? : any;
 }
