@@ -1,17 +1,16 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  Text,
-  View,
-  FlatList,
-} from "react-native";
+import { TouchableOpacity, Text, View, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./MyOrderScreen.style";
 import { OrderList } from "../../components/order";
-import { COLORS } from "../../common";
+import { COLORS, MainLoader } from "../../common";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigates/typeRootStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useGetAllOrdersQuery } from "../../redux/apis/orderApi";
+import { orderHeaderModel } from "../../interfaces";
 
 //*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
 type AppNavigationProp = NativeStackNavigationProp<
@@ -28,6 +27,9 @@ type Props = {
 //*** navigation&route ***
 
 export default function MyOrderScreen({ navigation, route }: Props) {
+  const userId = useSelector((state: RootState) => state.userAuthStore.id);
+  const { data, isLoading } = useGetAllOrdersQuery(userId);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleRow}>
@@ -38,14 +40,21 @@ export default function MyOrderScreen({ navigation, route }: Props) {
             color={COLORS.primary}
           />
         </TouchableOpacity>
-        <Text style={styles.titletxt}>Orders</Text>
+        <Text style={styles.titletxt}>
+          Orders ({!isLoading && data.result.length} items)
+        </Text>
       </View>
 
-      <FlatList
-        data={[1, 2, 3, 4, 5]}
-        keyExtractor={(item) => item.toString()}
-        renderItem={({ item, index }) => <OrderList key={index} />}
-      />
+      {isLoading && <MainLoader />}
+
+      {!isLoading && (
+        <FlatList
+          data={data.result}
+          renderItem={({item}) => (
+            <OrderList orderData={item} isLoading={isLoading} />
+          )}
+        />
+      )}
     </View>
   );
 }

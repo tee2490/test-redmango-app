@@ -1,11 +1,16 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from "../../screen/orders/MyOrderScreen.style";
-import { COLORS } from "../../common";
+import { COLORS, MainLoader } from "../../common";
 import { FormButton } from "../../ui";
+import OrderListProps from "./orderListType";
 
-export default function OrderList() {
+export default function OrderList({ isLoading, orderData }: OrderListProps) {
+
   return (
+    <>
+     {isLoading && <MainLoader />}
+     {!isLoading && (
     <TouchableOpacity style={styles.favContainer(COLORS.secondary)}>
       <View style={styles.textTitleContainer}>
         <Text style={styles.productTxt} numberOfLines={1}>
@@ -28,7 +33,7 @@ export default function OrderList() {
         </Text>
       </View>
       <View style={styles.textTitleContainer}>
-        {[1, 2, 3, 4, 5, 6].map(() => (
+        {[1,2,3,4,5,6].map(() => (
           <Text style={styles.productTxt} numberOfLines={1}>
             :
           </Text>
@@ -36,22 +41,22 @@ export default function OrderList() {
       </View>
       <View style={styles.textDetailContainer}>
         <Text style={styles.supplya} numberOfLines={1}>
-          ID
+          {orderData.orderHeaderId}
         </Text>
         <Text style={styles.supplya} numberOfLines={1}>
-          NAME
+          {orderData.pickupName}
         </Text>
         <Text style={styles.supplya} numberOfLines={1}>
-          PHONE
+          {orderData.pickupPhoneNumber}
         </Text>
         <Text style={styles.supplya} numberOfLines={1}>
-          $TOTAL
+          ${orderData.orderTotal!.toFixed(2)}
         </Text>
         <Text style={styles.supplya} numberOfLines={1}>
-          #ITEM
+          {orderData.totalItems}
         </Text>
         <Text style={styles.supplya} numberOfLines={1}>
-          DATE
+        {new Date(orderData.orderDate!).toLocaleDateString()}
         </Text>
       </View>
 
@@ -59,5 +64,7 @@ export default function OrderList() {
         <FormButton title="Detail" isValid={true} onPress={() => {}} />
       </View>
     </TouchableOpacity>
+     )}
+    </>
   );
 }
