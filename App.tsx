@@ -1,9 +1,11 @@
 import { useFonts } from "expo-font";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { MainNavigators } from "./src/navigates";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import FlashMessage from "react-native-flash-message";
+import { StatusBar } from "expo-status-bar";
+import { COLORS } from "./src/common";
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -23,8 +25,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
+      <View style={{flex:1}}>
+      <StatusBar backgroundColor={COLORS.gray}/>
       <MainNavigators />
       <FlashMessage position="bottom" />
+      </View>
     </Provider>
   );
 }

@@ -73,7 +73,7 @@ export default function MenuItemCard(item: Props) {
           <Text style={styles.catgory} numberOfLines={1}>
             {item.menuItem.category}
           </Text>
-          <Text style={styles.price}>5${item.menuItem.price}</Text>
+          <Text style={styles.price}>${item.menuItem.price}</Text>
         </View>
         {isAddingToCart ? (
           <TouchableOpacity style={styles.addBtn}>

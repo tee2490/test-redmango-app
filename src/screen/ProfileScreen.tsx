@@ -99,7 +99,7 @@ export default function ProfileScreen() {
         {userData.id && (
           <View style={styles.menuWrapper}>
             <TouchableOpacity
-              onPress={() => console.log("navigation.navigate('Orders')")}
+              onPress={() => navigate('MyOrderScreen')}
             >
               <View style={styles.menuItem(0.2)}>
                 <MaterialCommunityIcons
@@ -112,7 +112,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => console.log("navigation.navigate('Cart')")}
+              onPress={() => navigate("")}
             >
               <View style={styles.menuItem(0.2)}>
                 <SimpleLineIcons name="bag" color={COLORS.primary} size={24} />

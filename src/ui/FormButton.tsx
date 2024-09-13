@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.bold,
     color: COLORS.white,
     fontSize: SIZES.medium,
+    paddingHorizontal:5,
   },
   btnStyle: (backgroundColor: string) => ({
     height: 40,

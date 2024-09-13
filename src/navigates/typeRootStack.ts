@@ -7,4 +7,5 @@ export type RootStackParamList = {
   Login : undefined;
   Register : undefined;
   OrderConfirmed : {id : any};
+  MyOrderScreen : undefined;
 };
