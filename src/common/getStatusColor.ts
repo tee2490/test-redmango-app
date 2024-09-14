@@ -1,16 +1,17 @@
 import { SD_Status } from "./SD";
+import { COLORS } from "./theme";
 
 const getStatusColor = (status: SD_Status) => {
   return status === SD_Status.CONFIRMED
-    ? "primary"
+    ? COLORS.primary
     : status === SD_Status.PENDING
-    ? "secondary"
+    ? COLORS.secondary
     : status === SD_Status.CANCELLED
-    ? "danger"
+    ? COLORS.red
     : status === SD_Status.COMPLETED
-    ? "success"
+    ? COLORS.green
     : status === SD_Status.BEING_COOKED
-    ? "info"
+    ? COLORS.tertiary
     : status === SD_Status.READY_FOR_PICKUP && "warning";
 };
 
