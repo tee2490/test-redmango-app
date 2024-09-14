@@ -1,5 +1,6 @@
+import getStatusColor from "./getStatusColor";
 import MainLoader from "./MainLoader";
 import MiniLoader from "./MiniLoader";
 import { COLORS, SIZES, SHADOWS, FONTS } from "./theme";
 
-export { COLORS, SIZES, SHADOWS, FONTS, MiniLoader,MainLoader };
+export { COLORS, SIZES, SHADOWS, FONTS, MiniLoader,MainLoader,getStatusColor };
