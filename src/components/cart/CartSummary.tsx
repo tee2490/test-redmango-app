@@ -19,7 +19,7 @@ const CartSummary: React.FC = () => {
     (state: RootState) => state.userAuthStore
   );
 
-  if (!shoppingCartFromStore) {
+  if (shoppingCartFromStore.length == 0) {
     return <Text>Shopping Cart Empty</Text>;
   }
 
@@ -50,7 +50,12 @@ const CartSummary: React.FC = () => {
         style={styles.backRightBtn}
         onPress={() => handleQuantity(0, item)}
       >
-        <Ionicons name="trash-outline" size={24} color="white" style={styles.backText} />
+        <Ionicons
+          name="trash-outline"
+          size={24}
+          color="white"
+          style={styles.backText}
+        />
       </TouchableOpacity>
     </View>
   );

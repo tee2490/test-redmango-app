@@ -16,6 +16,7 @@ import { RootState } from "../redux/store";
 import { userModel } from "../interfaces";
 import { emptyUserState, setLoggedInUser } from "../redux/userAuthSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SD_Roles } from "../common/SD";
 
 export default function ProfileScreen() {
   const dispatch = useDispatch();
@@ -98,9 +99,7 @@ export default function ProfileScreen() {
 
         {userData.id && (
           <View style={styles.menuWrapper}>
-            <TouchableOpacity
-              onPress={() => navigate('MyOrderScreen')}
-            >
+            <TouchableOpacity onPress={() => navigate("MyOrderScreen")}>
               <View style={styles.menuItem(0.2)}>
                 <MaterialCommunityIcons
                   name="truck-delivery-outline"
@@ -111,27 +110,27 @@ export default function ProfileScreen() {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigate("")}
-            >
+            <TouchableOpacity onPress={() => navigate("ShoppingCartScreen")}>
               <View style={styles.menuItem(0.2)}>
                 <SimpleLineIcons name="bag" color={COLORS.primary} size={24} />
                 <Text style={styles.menuText}>Cart</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => console.log('navigation.navigate("Favorites")')}
-            >
-              <View style={styles.menuItem(0.2)}>
-                <MaterialCommunityIcons
-                  name="heart-outline"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText}>Favorites</Text>
-              </View>
-            </TouchableOpacity>
+            {userData.role == SD_Roles.ADMIN && (
+              <TouchableOpacity
+                onPress={() => console.log('navigation.navigate("Favorites")')}
+              >
+                <View style={styles.menuItem(0.2)}>
+                  <MaterialCommunityIcons
+                    name="heart-outline"
+                    color={COLORS.primary}
+                    size={24}
+                  />
+                  <Text style={styles.menuText}>Admin Panel</Text>
+                </View>
+              </TouchableOpacity>
+            )}
 
             <TouchableOpacity onPress={() => deleteAccount()}>
               <View style={styles.menuItem(0.2)}>

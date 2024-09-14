@@ -66,7 +66,7 @@ export default function PaymentForm({data,userInput,clientSecret }: orderSummary
       let grandTotal = 0;
       let totalItems = 0;
       const orderDetailsDTO: any = [];
-      data.cartItems.forEach((item: cartItemModel) => {
+      data.cartItems?.forEach((item: cartItemModel) => {
         const tempOrderDetail: any = {};
         tempOrderDetail["menuItemId"] = item.menuItem?.id;
         tempOrderDetail["quantity"] = item.quantity;
