@@ -4,8 +4,11 @@ import styles from "../../screen/orders/MyOrderScreen.style";
 import { COLORS, MainLoader } from "../../common";
 import { FormButton } from "../../ui";
 import OrderListProps from "./orderListType";
+import { NavigationProp, RouteProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigates/typeRootStack";
 
 export default function OrderList({ isLoading, orderData }: OrderListProps) {
+const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
 
   return (
     <>
@@ -61,7 +64,7 @@ export default function OrderList({ isLoading, orderData }: OrderListProps) {
       </View>
 
       <View>
-        <FormButton title="Detail" isValid={true} onPress={() => {}} />
+        <FormButton title="Detail" isValid={true} onPress={() => navigate("OrderDetailScreen",{id:orderData.orderHeaderId})} />
       </View>
     </TouchableOpacity>
      )}

@@ -50,6 +50,7 @@ export default function MyOrderScreen({ navigation, route }: Props) {
       {!isLoading && (
         <FlatList
           data={data.result}
+          keyExtractor={(item)=>item.orderHeaderId}
           renderItem={({item}) => (
             <OrderList orderData={item} isLoading={isLoading} />
           )}
