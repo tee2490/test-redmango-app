@@ -57,6 +57,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  nextContainer : {
+    flex: 1,
+    paddingHorizontal: 10,
+    justifyContent: "space-between",
+  },
+  statusContainer: (color: any) => ({
+    borderColor: color,
+    color: color,
+    borderWidth: 2,
+    borderRadius: 5,
+    justifyContent: "center",
+    padding: 7,
+  }),
 });
 
 export default styles;

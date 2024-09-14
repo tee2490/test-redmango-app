@@ -4,32 +4,26 @@ import { orderSummaryProps } from "./orderSummaryProps";
 import { cartItemModel } from "../../interfaces";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "./OrderSummary.style";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigates/typeRootStack";
 import { getStatusColor } from "../../common";
+import { BackBtn1 } from "../../ui";
 
 export default function OrderSummary({ data, userInput }: orderSummaryProps) {
   const badgeTypeColor = getStatusColor(data.status!);
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Order Summary</Text>
 
-          <Text
-            style={{
-              borderColor: `${badgeTypeColor}`,
-              color: `${badgeTypeColor}`,
-              borderWidth: 2,
-              borderRadius: 5,
-              justifyContent: "center",
-              padding: 7,
-            }}
-          >
+          <Text style={styles.statusContainer(badgeTypeColor)}>
             {data.status}
           </Text>
         </View>
-        
+
         <View style={styles.section}>
           <Text style={styles.label}>
             Name: <Text style={styles.value}>{userInput.name}</Text>
@@ -59,6 +53,10 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
         ))}
 
         <Text style={styles.total}>Total: ${data?.cartTotal?.toFixed(2)}</Text>
+      </View>
+
+      <View style={styles.nextContainer}>
+        <BackBtn1 size={40} onPress={() => navigate("MyOrderScreen")} />
       </View>
     </ScrollView>
   );
