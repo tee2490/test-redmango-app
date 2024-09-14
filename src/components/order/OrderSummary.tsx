@@ -6,12 +6,26 @@ import { ScrollView } from "react-native-gesture-handler";
 import styles from "./OrderSummary.style";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigates/typeRootStack";
-import { getStatusColor } from "../../common";
-import { BackBtn1 } from "../../ui";
+import { COLORS, getStatusColor } from "../../common";
+import { BackBtn1, FormButton1 } from "../../ui";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { SD_Roles, SD_Status } from "../../common/SD";
 
 export default function OrderSummary({ data, userInput }: orderSummaryProps) {
   const badgeTypeColor = getStatusColor(data.status!);
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const userData = useSelector((state: RootState) => state.userAuthStore);
+
+  const nextStatus: any =
+    data.status! === SD_Status.CONFIRMED
+      ? { color: COLORS.info, value: SD_Status.BEING_COOKED }
+      : data.status! === SD_Status.BEING_COOKED
+      ? { color: COLORS.warning, value: SD_Status.READY_FOR_PICKUP }
+      : data.status! === SD_Status.READY_FOR_PICKUP && {
+          color: COLORS.success,
+          value: SD_Status.COMPLETED,
+        };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -57,6 +71,17 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
 
       <View style={styles.nextContainer}>
         <BackBtn1 size={40} onPress={() => navigate("MyOrderScreen")} />
+
+        {userData.role == SD_Roles.ADMIN && (
+          <View style={{ flexDirection: "row" }}>
+            <FormButton1 isValid={true} title="Cancel" color={COLORS.danger} />
+            <FormButton1
+              isValid={true}
+              title={nextStatus.value}
+              color={nextStatus.color}
+            />
+          </View>
+        )}
       </View>
     </ScrollView>
   );

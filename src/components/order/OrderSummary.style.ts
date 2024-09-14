@@ -59,8 +59,10 @@ const styles = StyleSheet.create({
   },
   nextContainer : {
     flex: 1,
+    flexDirection:'row',
     paddingHorizontal: 10,
     justifyContent: "space-between",
+    alignItems:'center',
   },
   statusContainer: (color: any) => ({
     borderColor: color,
