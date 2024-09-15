@@ -16,7 +16,7 @@ const COLORS = {
   green: "#00C135",
   lightWhite: "#FAFAFC",
   primary1 : "#0000FF",
-  warning : "#ffcc00",
+  warning : "#ec942c",
   info : "#40a6ce",
   success : "#339900",
   danger : "#cc3300"

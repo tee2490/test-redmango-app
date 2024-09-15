@@ -95,20 +95,25 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
 
         {userData.role == SD_Roles.ADMIN && (
           <View style={{ flexDirection: "row" }}>
-            <FormButton1
-              isLoading={loading}
-              isValid={true}
-              title="Cancel"
-              color={COLORS.danger}
-              onPress={handleCancel}
-            />
-            <FormButton1
-              isLoading={loading}
-              isValid={true}
-              title={nextStatus.value}
-              color={nextStatus.color}
-              onPress={handleNextStatus}
-            />
+            {data.status! !== SD_Status.CANCELLED &&
+              data.status! !== SD_Status.COMPLETED && (
+                <>
+                  <FormButton1
+                    isLoading={loading}
+                    isValid={true}
+                    title="Cancel"
+                    color={COLORS.danger}
+                    onPress={handleCancel}
+                  />
+                  <FormButton1
+                    isLoading={loading}
+                    isValid={true}
+                    title={nextStatus.value}
+                    color={nextStatus.color}
+                    onPress={handleNextStatus}
+                  />
+                </>
+              )}
           </View>
         )}
       </View>
