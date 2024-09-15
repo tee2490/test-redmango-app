@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { orderSummaryProps } from "./orderSummaryProps";
 import { cartItemModel } from "../../interfaces";
@@ -11,11 +11,14 @@ import { BackBtn1, FormButton1 } from "../../ui";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { SD_Roles, SD_Status } from "../../common/SD";
+import { useUpdateOrderHeaderMutation } from "../../redux/apis/orderApi";
 
 export default function OrderSummary({ data, userInput }: orderSummaryProps) {
   const badgeTypeColor = getStatusColor(data.status!);
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const userData = useSelector((state: RootState) => state.userAuthStore);
+  const [loading, setIsLoading] = useState(false);
+  const [updateOrderHeader] = useUpdateOrderHeaderMutation();
 
   const nextStatus: any =
     data.status! === SD_Status.CONFIRMED
@@ -26,6 +29,24 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
           color: COLORS.success,
           value: SD_Status.COMPLETED,
         };
+
+  const handleNextStatus = async () => {
+    setIsLoading(true);
+    await updateOrderHeader({
+      orderHeaderId: data.id,
+      status: nextStatus.value,
+    });
+    setIsLoading(false);
+  };
+
+  const handleCancel = async () => {
+    setIsLoading(true);
+    await updateOrderHeader({
+      orderHeaderId: data.id,
+      status: SD_Status.CANCELLED,
+    });
+    setIsLoading(false);
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -74,11 +95,19 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
 
         {userData.role == SD_Roles.ADMIN && (
           <View style={{ flexDirection: "row" }}>
-            <FormButton1 isValid={true} title="Cancel" color={COLORS.danger} />
             <FormButton1
+              isLoading={loading}
+              isValid={true}
+              title="Cancel"
+              color={COLORS.danger}
+              onPress={handleCancel}
+            />
+            <FormButton1
+              isLoading={loading}
               isValid={true}
               title={nextStatus.value}
               color={nextStatus.color}
+              onPress={handleNextStatus}
             />
           </View>
         )}
