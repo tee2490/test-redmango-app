@@ -15,6 +15,7 @@ const COLORS = {
   red: "#e81e4d",
   green: "#00C135",
   lightWhite: "#FAFAFC",
+  primary1 : "#0000FF",
   warning : "#ffcc00",
   info : "#40a6ce",
   success : "#339900",
