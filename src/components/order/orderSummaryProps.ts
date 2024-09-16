@@ -16,4 +16,5 @@ export interface orderSummaryProps {
         phoneNumber: string;
     };
     clientSecret? : any;
+    payment? : boolean;
 }

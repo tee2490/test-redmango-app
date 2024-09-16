@@ -12,7 +12,7 @@ import { RootState } from "../../redux/store";
 import { SD_Roles, SD_Status } from "../../common/SD";
 import { useUpdateOrderHeaderMutation } from "../../redux/apis/orderApi";
 
-export default function OrderSummary({ data, userInput }: orderSummaryProps) {
+export default function OrderSummary({ data, userInput,payment }: orderSummaryProps) {
   const badgeTypeColor = getStatusColor(data.status!);
   const { goBack } = useNavigation();
   const userData = useSelector((state: RootState) => state.userAuthStore);
@@ -53,9 +53,11 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Order Summary</Text>
 
+          { !payment &&
           <Text style={styles.statusContainer(badgeTypeColor)}>
             {data.status}
           </Text>
+}
         </View>
 
         <View style={styles.section}>
@@ -92,7 +94,7 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
       <View style={styles.nextContainer}>
         <BackBtn1 size={40} onPress={() => goBack()} />
 
-        {userData.role == SD_Roles.ADMIN && (
+        { !payment && userData.role == SD_Roles.ADMIN && (
           <View style={{ flexDirection: "row" }}>
             {data.status! !== SD_Status.CANCELLED &&
               data.status! !== SD_Status.COMPLETED && (
