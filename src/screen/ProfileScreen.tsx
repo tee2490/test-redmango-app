@@ -106,7 +106,7 @@ export default function ProfileScreen() {
                   color={COLORS.primary}
                   size={24}
                 />
-                <Text style={styles.menuText}>Orders</Text>
+                <Text style={styles.menuText}>My Orders</Text>
               </View>
             </TouchableOpacity>
 
@@ -127,7 +127,7 @@ export default function ProfileScreen() {
                     color={COLORS.primary}
                     size={24}
                   />
-                  <Text style={styles.menuText}>Admin Panel</Text>
+                  <Text style={styles.menuText}>All Orders</Text>
                 </View>
               </TouchableOpacity>
             )}

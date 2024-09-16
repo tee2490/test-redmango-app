@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { Formik } from "formik";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { RouteProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigates/typeRootStack";
 import { RegisterSchema } from "../../utils";
@@ -24,24 +24,11 @@ import { apiResponse } from "../../interfaces";
 import { registerDto } from "../../interfaces/dto";
 import { showMessage } from "react-native-flash-message";
 
-//*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type AppNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "Register"
->;
-
-type AppRouteProp = RouteProp<RootStackParamList, "Register">;
-
-type Props = {
-  navigation: AppNavigationProp;
-  route: AppRouteProp;
-};
-//*** navigation&route ***
-
-export default function Register({ navigation, route }: Props) {
+export default function Register() {
   const [registerUser] = useRegisterUserMutation();
   const [loading, setLoading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
+  const {navigate, canGoBack, goBack} = useNavigation<NavigationProp<RootStackParamList>>()
 
   // Use the enum values for the picker options
   const userTypeOptions = [
@@ -68,7 +55,7 @@ export default function Register({ navigation, route }: Props) {
     });
     if (response.data) {
       console.log(response.data);
-      navigation.replace("ProfileScreen");
+      navigate("ProfileScreen");
     } else if (response.error) {
       showMessage({
         message: response.error.data.errorMessages[0],
@@ -94,7 +81,7 @@ export default function Register({ navigation, route }: Props) {
   return (
     <ScrollView>
       <View style={{ marginHorizontal: 20 }}>
-        <BackBtn onPress={() => navigation.goBack()} />
+        <BackBtn onPress={() => { canGoBack() && goBack()}} />
         <Image source={require("../../Images/bk.png")} style={styles.cover} />
 
         <Text style={styles.title}>Unlimited Luxurious RedMango</Text>

@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import { Formik } from "formik";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { RouteProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigates/typeRootStack";
 import { COLORS } from "../../common";
@@ -25,22 +25,12 @@ import { setLoggedInUser } from "../../redux/userAuthSlice";
 import { jwtDecode } from "jwt-decode";
 import { showMessage } from "react-native-flash-message";
 
-//*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type AppNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
-
-type AppRouteProp = RouteProp<RootStackParamList, "Login">;
-
-type Props = {
-  navigation: AppNavigationProp;
-  route: AppRouteProp;
-};
-//*** navigation&route ***
-
-export default function Login({ navigation, route }: Props) {
+export default function Login() {
   const dispatch = useDispatch();
   const [loginUser] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
+  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
 
   const inValidForm = () => {
     Alert.alert("Invalid Form", "Please provide all required fields", [
@@ -70,7 +60,7 @@ export default function Login({ navigation, route }: Props) {
       const { fullName, id, email, role }: userModel = jwtDecode(token);
       dispatch(setLoggedInUser({ fullName, id, email, role }));
 
-      navigation.replace("ProfileScreen");
+      navigate("ProfileScreen");
     } else if (response.error) {
       showMessage({
         message: response.error.data.errorMessages[0],
@@ -94,7 +84,7 @@ export default function Login({ navigation, route }: Props) {
   return (
     <ScrollView>
       <View style={{ marginHorizontal: 20 }}>
-        <BackBtn onPress={() => navigation.replace("ProfileScreen")} />
+        <BackBtn onPress={() => navigate("ProfileScreen")} />
         <Image source={require("../../Images/bk.png")} style={styles.cover} />
 
         <Text style={styles.title}>Unlimited Luxurious RedMango</Text>
@@ -188,7 +178,7 @@ export default function Login({ navigation, route }: Props) {
               <Text
                 style={styles.registration}
                 onPress={() => {
-                  navigation.navigate("Register");
+                  navigate("Register");
                 }}
               >
                 Register
