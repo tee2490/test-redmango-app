@@ -10,4 +10,5 @@ export type RootStackParamList = {
   MyOrderScreen: undefined;
   OrderDetailScreen: { id: any };
   AllOrderScreen: undefined;
+  MainListScreen: undefined;
 };
