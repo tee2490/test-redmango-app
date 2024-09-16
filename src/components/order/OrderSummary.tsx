@@ -4,8 +4,7 @@ import { orderSummaryProps } from "./orderSummaryProps";
 import { cartItemModel } from "../../interfaces";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "./OrderSummary.style";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../navigates/typeRootStack";
+import { useNavigation } from "@react-navigation/native";
 import { COLORS, getStatusColor } from "../../common";
 import { BackBtn1, FormButton1 } from "../../ui";
 import { useSelector } from "react-redux";
@@ -15,7 +14,7 @@ import { useUpdateOrderHeaderMutation } from "../../redux/apis/orderApi";
 
 export default function OrderSummary({ data, userInput }: orderSummaryProps) {
   const badgeTypeColor = getStatusColor(data.status!);
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const { goBack } = useNavigation();
   const userData = useSelector((state: RootState) => state.userAuthStore);
   const [loading, setIsLoading] = useState(false);
   const [updateOrderHeader] = useUpdateOrderHeaderMutation();
@@ -91,7 +90,7 @@ export default function OrderSummary({ data, userInput }: orderSummaryProps) {
       </View>
 
       <View style={styles.nextContainer}>
-        <BackBtn1 size={40} onPress={() => navigate("MyOrderScreen")} />
+        <BackBtn1 size={40} onPress={() => goBack()} />
 
         {userData.role == SD_Roles.ADMIN && (
           <View style={{ flexDirection: "row" }}>

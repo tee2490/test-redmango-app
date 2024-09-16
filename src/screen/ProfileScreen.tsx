@@ -119,7 +119,7 @@ export default function ProfileScreen() {
 
             {userData.role == SD_Roles.ADMIN && (
               <TouchableOpacity
-                onPress={() => console.log('navigation.navigate("Favorites")')}
+                onPress={() => navigate("AllOrderScreen")}
               >
                 <View style={styles.menuItem(0.2)}>
                   <MaterialCommunityIcons

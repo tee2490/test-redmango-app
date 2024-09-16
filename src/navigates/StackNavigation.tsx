@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
+  AllOrderScreen,
   HomeScreen,
   MenuItemDetailScreen,
   MyOrderScreen,
@@ -78,6 +79,12 @@ export default function StackNavigation() {
         <Stack.Screen
           name="OrderDetailScreen"
           component={OrderDetailScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="AllOrderScreen"
+          component={AllOrderScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
