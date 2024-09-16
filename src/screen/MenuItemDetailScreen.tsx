@@ -1,34 +1,18 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import React, { useState } from "react";
-import { NavigationProp, RouteProp, useNavigation } from "@react-navigation/native";
 import { Ionicons, SimpleLineIcons, Fontisto } from "@expo/vector-icons";
 import styles from "./MenuItemDetailScreen.style";
 import { COLORS, MiniLoader } from "../common";
 import { RootStackParamList } from "../navigates/typeRootStack";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { baseUrl, userTest } from "../common/SD";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { baseUrl} from "../common/SD";
 import { useGetMenuItemByIdQuery } from "../redux/apis/menuItemApi";
 import { useUpdateShoppingCartMutation } from "../redux/apis/shoppingCartApi";
 import { userModel } from "../interfaces";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
-//*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type AppNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "MenuItemDetailScreen"
->;
-
-type AppRouteProp = RouteProp<
-  RootStackParamList,
-  "MenuItemDetailScreen"
->;
-
-type Props = {
-  navigation: AppNavigationProp;
-  route: AppRouteProp;
-};
-//*** navigation&route ***
+type Props = NativeStackScreenProps<RootStackParamList, "MenuItemDetailScreen">;
 
 const MenuItemDetailScreen = ({ navigation, route }: Props) => {
   const { id } = route.params;
@@ -38,8 +22,7 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
   const userData: userModel = useSelector(
     (state: RootState) => state.userAuthStore
   );
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
-
+ 
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantity = (counter: number) => {
@@ -53,7 +36,7 @@ const MenuItemDetailScreen = ({ navigation, route }: Props) => {
 
   const handleAddToCart = async (menuItemId: number) => {
     if (!userData.id) {
-      navigate("Login");
+     navigation.navigate("Login");
     }
 
     setIsAddingToCart(true);

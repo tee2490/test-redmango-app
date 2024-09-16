@@ -1,27 +1,14 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigates/typeRootStack";
-import { RouteProp } from "@react-navigation/native";
 import { OrderSummary } from "../components/order";
 import { PaymentForm } from "../components/Payment";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
-//*** navigation&route ประกาศคุณสมบัติเส้นทางและการเรียกใช้พารามิเตอร์ที่ส่งมา
-type AppNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "PaymentScreen"
->;
+type Props = NativeStackScreenProps<RootStackParamList, "PaymentScreen">;
 
-type AppRouteProp = RouteProp<RootStackParamList, "PaymentScreen">;
-
-type Props = {
-  navigation: AppNavigationProp;
-  route: AppRouteProp;
-};
-//*** navigation&route ***
-
-export default function PaymentScreen({ navigation, route }: Props) {
+export default function PaymentScreen({ route }: Props) {
   const { state } = route.params;
   const [publishableKey, setPublishableKey] = useState("");
 
