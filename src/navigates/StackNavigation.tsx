@@ -15,6 +15,7 @@ import {
 import { RootStackParamList } from "./typeRootStack";
 import { Login, Register } from "../components/auth";
 import { OrderConfirmed } from "../components/order";
+import { MenuItemUpsert } from "../components/menu";
 
 //ประกาศ RootStackParamList กำหนดพารามิเตอร์สำหรับส่งจาก Screen to Screen
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -92,6 +93,12 @@ export default function StackNavigation() {
         <Stack.Screen
           name="MainListScreen"
           component={MainListScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="MenuItemUpsert"
+          component={MenuItemUpsert}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

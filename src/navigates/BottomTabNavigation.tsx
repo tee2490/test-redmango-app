@@ -12,6 +12,7 @@ import { setShoppingCart } from "../redux/shoppingCartSlice";
 import { Badge } from "react-native-paper";
 import { cartItemModel, userModel } from "../interfaces";
 import { RootState } from "../redux/store";
+import { MenuItemUpsert } from "../components/menu";
 
 const Tab = createBottomTabNavigator();
 
@@ -78,7 +79,7 @@ export default function BottomTabNavigation() {
           {userData?.id.length > 0 && (
             <Tab.Screen name="CART" component={ShoppingCartScreen} />
           )}
-          <Tab.Screen name="SETTING" component={HomeScreen} />
+          <Tab.Screen name="SETTING" component={MenuItemUpsert} />
           <Tab.Screen name="PROFILE" component={ProfileScreen} />
         </Tab.Navigator>
       </View>
