@@ -3,10 +3,13 @@ import React from "react";
 import styles from "./MainListScreen.style";
 import { MainCard } from "../../components/menu";
 import { BackBtn1 } from "../../ui";
-import { COLORS } from "../../common";
+import { COLORS, MainLoader } from "../../common";
 import { Ionicons } from "@expo/vector-icons";
+import { useGetMenuItemsQuery } from "../../redux/apis/menuItemApi";
 
 export default function MainListScreen() {
+  const { data, isLoading } = useGetMenuItemsQuery(null);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleRow}>
@@ -20,13 +23,16 @@ export default function MainListScreen() {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={[1, 2, 3, 4, 5, 6, 7]}
-        renderItem={({ item }) => <MainCard />}
-        contentContainerStyle={styles.container}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-      />
+      {isLoading && <MainLoader />}
+      {!isLoading && (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={data.result}
+          renderItem={({ item }) => <MainCard key={item.id} menuItem={item} />}
+          contentContainerStyle={styles.container}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
+      )}
     </View>
   );
 }

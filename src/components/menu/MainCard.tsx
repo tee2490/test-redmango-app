@@ -3,15 +3,21 @@ import React from "react";
 import styles from "./MainCard.style";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../../common";
+import { menuItemModel } from "../../interfaces";
+import { baseUrl } from "../../common/SD";
 
-export default function MenuCard() {
+type Props = {
+  menuItem: menuItemModel;
+};
+
+export default function MenuCard({ menuItem }: Props) {
   return (
     <View>
       <TouchableOpacity style={styles.container} onPress={() => {}}>
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: "https://as2.ftcdn.net/v2/jpg/03/60/78/63/1000_F_360786351_kFYyEoHBzrtIIqg1BQlo0i3YR38B0M2a.jpg",
+              uri: baseUrl + menuItem.image,
             }}
             style={styles.productImg}
           />
@@ -36,19 +42,19 @@ export default function MenuCard() {
 
         <View style={styles.textContainer}>
           <Text numberOfLines={1} style={styles.productTxt}>
-            01
+            {menuItem.id}
           </Text>
           <Text numberOfLines={1} style={styles.productTxt}>
-            NAME55555555555555555555
+            {menuItem.name}
           </Text>
           <Text numberOfLines={1} style={styles.productTxt}>
-            CATEGORY
+            {menuItem.category}
           </Text>
           <Text numberOfLines={1} style={styles.productTxt}>
-            PRICE
+            ${menuItem.price}
           </Text>
           <Text numberOfLines={1} style={styles.productTxt}>
-            SPECIAL TAG
+            {menuItem.specialTag}
           </Text>
         </View>
 
