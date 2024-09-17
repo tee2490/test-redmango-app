@@ -6,15 +6,18 @@ import { BackBtn1 } from "../../ui";
 import { COLORS, MainLoader } from "../../common";
 import { Ionicons } from "@expo/vector-icons";
 import { useGetMenuItemsQuery } from "../../redux/apis/menuItemApi";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigates/typeRootStack";
 
 export default function MainListScreen() {
   const { data, isLoading } = useGetMenuItemsQuery(null);
+  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
 
   return (
     <View style={styles.container}>
       <View style={styles.titleRow}>
         <View style={{ flexDirection: "row" }}>
-          <BackBtn1 size={35} onPress={() => {}} />
+          <BackBtn1 size={35} onPress={() => navigate("ProfileScreen")} />
           <Text style={styles.titletxt}>MenuItem List</Text>
         </View>
 
