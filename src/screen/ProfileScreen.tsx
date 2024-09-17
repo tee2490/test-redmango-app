@@ -1,4 +1,11 @@
-import { Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -17,6 +24,7 @@ import { userModel } from "../interfaces";
 import { emptyUserState, setLoggedInUser } from "../redux/userAuthSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SD_Roles } from "../common/SD";
+import { List, MD3Colors } from "react-native-paper";
 
 export default function ProfileScreen() {
   const dispatch = useDispatch();
@@ -98,54 +106,79 @@ export default function ProfileScreen() {
         )}
 
         {userData.id && (
-          <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={() => navigate("MyOrderScreen")}>
-              <View style={styles.menuItem(0.2)}>
-                <MaterialCommunityIcons
-                  name="truck-delivery-outline"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText}>My Orders</Text>
-              </View>
-            </TouchableOpacity>
+          <ScrollView>
+            <View style={styles.menuWrapper}>
+              
+              {userData.role == SD_Roles.ADMIN && (
+                <View style={styles.menuItem1(0.2)}>
+                  <List.Accordion
+                    titleStyle={{ color: COLORS.gray }}
+                    title="Admin Panel"
+                    left={(props) => (
+                      <List.Icon {...props} icon="bulletin-board" />
+                    )}
+                  >
+                    <TouchableOpacity
+                      onPress={() => navigate("AllOrderScreen")}
+                    >
+                      <List.Item
+                        title="All Orders"
+                        titleStyle={{ color: COLORS.warning }}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => navigate("MainListScreen")}
+                    >
+                      <List.Item
+                        title="Menu Item"
+                        titleStyle={{ color: COLORS.warning }}
+                      />
+                    </TouchableOpacity>
+                  </List.Accordion>
+                </View>
+              )}
 
-            <TouchableOpacity onPress={() => navigate("ShoppingCartScreen")}>
-              <View style={styles.menuItem(0.2)}>
-                <SimpleLineIcons name="bag" color={COLORS.primary} size={24} />
-                <Text style={styles.menuText}>Cart</Text>
-              </View>
-            </TouchableOpacity>
-
-            {userData.role == SD_Roles.ADMIN && (
-              <TouchableOpacity
-                onPress={() => navigate("AllOrderScreen")}
-              >
+              <TouchableOpacity onPress={() => navigate("MyOrderScreen")}>
                 <View style={styles.menuItem(0.2)}>
                   <MaterialCommunityIcons
-                    name="heart-outline"
+                    name="truck-delivery-outline"
                     color={COLORS.primary}
                     size={24}
                   />
-                  <Text style={styles.menuText}>All Orders</Text>
+                  <Text style={styles.menuText}>My Orders</Text>
                 </View>
               </TouchableOpacity>
-            )}
 
-            <TouchableOpacity onPress={() => deleteAccount()}>
-              <View style={styles.menuItem(0.2)}>
-                <AntDesign name="deleteuser" color={COLORS.primary} size={24} />
-                <Text style={styles.menuText}>Delete Account</Text>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigate("ShoppingCartScreen")}>
+                <View style={styles.menuItem(0.2)}>
+                  <SimpleLineIcons
+                    name="bag"
+                    color={COLORS.primary}
+                    size={24}
+                  />
+                  <Text style={styles.menuText}>Cart</Text>
+                </View>
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => logout()}>
-              <View style={styles.menuItem(0.2)}>
-                <AntDesign name="logout" color={COLORS.primary} size={24} />
-                <Text style={styles.menuText}>Logout</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity onPress={() => deleteAccount()}>
+                <View style={styles.menuItem(0.2)}>
+                  <AntDesign
+                    name="deleteuser"
+                    color={COLORS.primary}
+                    size={24}
+                  />
+                  <Text style={styles.menuText}>Delete Account</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => logout()}>
+                <View style={styles.menuItem(0.2)}>
+                  <AntDesign name="logout" color={COLORS.primary} size={24} />
+                  <Text style={styles.menuText}>Logout</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         )}
       </View>
     </View>

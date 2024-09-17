@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { COLORS, FONTS, SIZES } from "../common";
 
 const styles = StyleSheet.create({
@@ -63,6 +63,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         borderColor: COLORS.gray 
     }),
+    menuItem1: (borderBottomWidth: number) : View => ({
+        borderBottomWidth: borderBottomWidth,
+        paddingLeft: 12,
+        borderColor: COLORS.gray,
+      }),
 
 })
 
