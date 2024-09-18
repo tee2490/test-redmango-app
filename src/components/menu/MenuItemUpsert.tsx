@@ -9,13 +9,17 @@ import OptionModal from "./OptionModal";
 import { Formik } from "formik";
 import { menuUpsertDto } from "../../interfaces/dto";
 import { menuUpsertSchema } from "../../utils/validator";
-import { BackBtn1, FormButton, FormButton1, FormInput } from "../../ui";
+import { BackBtn1, FormButton1, FormInput } from "../../ui";
 import { COLORS, FONTS, SIZES } from "../../common";
 import RNPickerSelect from "react-native-picker-select";
 import { baseUrl, SD_Categories } from "../../common/SD";
 import { showMessage } from "react-native-flash-message";
 import mime from "mime";
-import { useCreateMenuItemMutation, useGetMenuItemByIdQuery } from "../../redux/apis/menuItemApi";
+import {
+  useCreateMenuItemMutation,
+  useGetMenuItemByIdQuery,
+  useUpdateMenuItemMutation,
+} from "../../redux/apis/menuItemApi";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigates/typeRootStack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -49,7 +53,7 @@ const inValidForm = () => {
 
 type Props = NativeStackScreenProps<RootStackParamList, "MenuItemUpsert">;
 
-export default function MenuItemUpsert({route}:Props) {
+export default function MenuItemUpsert({ route }: Props) {
   const { id } = route.params;
   const [menuItemInputs, setMenuItemInputs] = useState(initialData);
   const [images, setImages] = useState<string[]>([]);
@@ -59,22 +63,22 @@ export default function MenuItemUpsert({route}:Props) {
   const [createMenuItem] = useCreateMenuItemMutation();
   const { navigate, goBack } =
     useNavigation<NavigationProp<RootStackParamList>>();
+  const [updateMenuItem] = useUpdateMenuItemMutation();
+  const { data } = useGetMenuItemByIdQuery(id);
 
-    const { data } = useGetMenuItemByIdQuery(id);
-
-    useEffect(() => {
-      if (data && data.result) {
-         const tempData = {
-          name: data.result.name,
-          description: data.result.description,
-          specialTag: data.result.specialTag,
-          category: data.result.category,
-          price: (data.result.price).toString(),
-        };
-        setMenuItemInputs(tempData);
-        setImages([baseUrl + data.result.image])
-      }
-    }, [data]);
+  useEffect(() => {
+    if (data && data.result) {
+      const tempData = {
+        name: data.result.name,
+        description: data.result.description,
+        specialTag: data.result.specialTag,
+        category: data.result.category,
+        price: data.result.price.toString(),
+      };
+      setMenuItemInputs(tempData);
+      setImages([baseUrl + data.result.image]);
+    }
+  }, [data]);
 
   const handleOnImageSelection = async () => {
     const newImages = await selectImages();
@@ -115,7 +119,25 @@ export default function MenuItemUpsert({route}:Props) {
     }
     formData.append("File", fileData);
 
-    const response = await createMenuItem(formData);
+    let response;
+
+    if (id) {
+      //update
+      formData.append("Id", id);
+      response = await updateMenuItem({ data: formData, id });
+      showMessage({
+        message: "Menu Item updated successfully",
+        type: "success",
+      });
+    } else {
+      //create
+      response = await createMenuItem(formData);
+      showMessage({
+        message: "Menu Item created successfully",
+        type: "success",
+      });
+    }
+
     if (response) {
       setLoading(false);
       navigate("MainListScreen");
@@ -130,7 +152,10 @@ export default function MenuItemUpsert({route}:Props) {
     <Formik
       initialValues={menuItemInputs}
       validationSchema={menuUpsertSchema}
-      onSubmit={(values) => onHandleSubmit(values)}
+      onSubmit={(values) => {
+        setMenuItemInputs(values);
+        onHandleSubmit(values);
+      }}
     >
       {({
         handleChange,
