@@ -33,7 +33,7 @@ const menuUpsertSchema =  Yup.object().shape({
   name: Yup.string().required("Required"),
   description: Yup.string(),
   specialTag: Yup.string(),
-  category: Yup.string(),
+  category: Yup.string().required("Required"),
   price: Yup.number().min(1,"Price must be at least 1").required("Required"),
 });
 
