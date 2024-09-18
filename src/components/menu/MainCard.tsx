@@ -7,13 +7,35 @@ import { menuItemModel } from "../../interfaces";
 import { baseUrl } from "../../common/SD";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigates/typeRootStack";
+import { useDeleteMenuItemMutation } from "../../redux/apis/menuItemApi";
+import { showMessage } from "react-native-flash-message";
 
 type Props = {
   menuItem: menuItemModel;
 };
 
 export default function MenuCard({ menuItem }: Props) {
-const { navigate} = useNavigation<NavigationProp<RootStackParamList>>()
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const [deleteMenuItem] = useDeleteMenuItemMutation();
+
+  const handleMenuItemDelete = async (id: number) => {
+    const response = await deleteMenuItem(id);
+
+    //console.log(response);
+
+    //ข้อความที่ส่งมาจาก backend
+    if (response.data.isSuccess) {
+      showMessage({
+        message: "Menu Item deleted successfully",
+        type: "success",
+      });
+    } else {
+      showMessage({
+        message: response.data.errorMessages,
+        type: "danger",
+      });
+    }
+  };
 
   return (
     <View>
@@ -64,7 +86,7 @@ const { navigate} = useNavigation<NavigationProp<RootStackParamList>>()
 
         <View style={styles.actionContainer}>
           <TouchableOpacity
-            onPress={() => navigate("MenuItemUpsert",{id : menuItem.id})}
+            onPress={() => navigate("MenuItemUpsert", { id: menuItem.id })}
             style={{
               backgroundColor: COLORS.success,
               borderRadius: 5,
@@ -75,7 +97,7 @@ const { navigate} = useNavigation<NavigationProp<RootStackParamList>>()
             <AntDesign name="edit" size={20} color={COLORS.white} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => handleMenuItemDelete(menuItem.id)}
             style={{
               backgroundColor: COLORS.danger,
               borderRadius: 5,
