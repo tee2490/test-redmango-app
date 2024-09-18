@@ -79,7 +79,7 @@ export default function BottomTabNavigation() {
           {userData?.id.length > 0 && (
             <Tab.Screen name="CART" component={ShoppingCartScreen} />
           )}
-          <Tab.Screen name="SETTING" component={MenuItemUpsert} />
+          <Tab.Screen name="SETTING" component={HomeScreen} />
           <Tab.Screen name="PROFILE" component={ProfileScreen} />
         </Tab.Navigator>
       </View>

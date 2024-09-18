@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Pressable, Text, Alert } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import CustomKeyAvoidingView from "../../ui/CustomKeyAvoidingView";
@@ -12,21 +12,22 @@ import { menuUpsertSchema } from "../../utils/validator";
 import { BackBtn1, FormButton, FormButton1, FormInput } from "../../ui";
 import { COLORS, FONTS, SIZES } from "../../common";
 import RNPickerSelect from "react-native-picker-select";
-import { SD_Categories } from "../../common/SD";
+import { baseUrl, SD_Categories } from "../../common/SD";
 import { showMessage } from "react-native-flash-message";
 import mime from "mime";
-import { useCreateMenuItemMutation } from "../../redux/apis/menuItemApi";
+import { useCreateMenuItemMutation, useGetMenuItemByIdQuery } from "../../redux/apis/menuItemApi";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigates/typeRootStack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 const imageOptions = [{ value: "Remove Image", id: "remove" }];
 
-const initialData: menuUpsertDto = {
-  name: "Test Name",
+var initialData: menuUpsertDto = {
+  name: "Test Name8888888888",
   description: "Test Description",
   specialTag: "Test SpecialTage",
   category: SD_Categories.APPETIZER,
-  price: "99.99",
+  price: "11155.99",
 };
 
 // Use the enum values for the picker options
@@ -46,7 +47,11 @@ const inValidForm = () => {
   ]);
 };
 
-export default function MenuItemUpsert() {
+type Props = NativeStackScreenProps<RootStackParamList, "MenuItemUpsert">;
+
+export default function MenuItemUpsert({route}:Props) {
+  const { id } = route.params;
+  const [menuItemInputs, setMenuItemInputs] = useState(initialData);
   const [images, setImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState("");
   const [showImageOptions, setShowImageOptions] = useState(false);
@@ -54,6 +59,22 @@ export default function MenuItemUpsert() {
   const [createMenuItem] = useCreateMenuItemMutation();
   const { navigate, goBack } =
     useNavigation<NavigationProp<RootStackParamList>>();
+
+    const { data } = useGetMenuItemByIdQuery(id);
+
+    useEffect(() => {
+      if (data && data.result) {
+         const tempData = {
+          name: data.result.name,
+          description: data.result.description,
+          specialTag: data.result.specialTag,
+          category: data.result.category,
+          price: (data.result.price).toString(),
+        };
+        setMenuItemInputs(tempData);
+        setImages([baseUrl + data.result.image])
+      }
+    }, [data]);
 
   const handleOnImageSelection = async () => {
     const newImages = await selectImages();
@@ -107,7 +128,7 @@ export default function MenuItemUpsert() {
 
   const FormixForm = () => (
     <Formik
-      initialValues={initialData}
+      initialValues={menuItemInputs}
       validationSchema={menuUpsertSchema}
       onSubmit={(values) => onHandleSubmit(values)}
     >
@@ -182,10 +203,10 @@ export default function MenuItemUpsert() {
 
             <FormButton1
               loading={loading}
-              title={"Submit"}
+              title={id ? "Update" : "Create"}
               onPress={isValid ? handleSubmit : inValidForm}
               isValid={isValid}
-              color={COLORS.danger}
+              color={id ? COLORS.primary : COLORS.danger}
             />
           </View>
         </View>
