@@ -15,6 +15,9 @@ import RNPickerSelect from "react-native-picker-select";
 import { SD_Categories } from "../../common/SD";
 import { showMessage } from "react-native-flash-message";
 import mime from "mime";
+import { useCreateMenuItemMutation } from "../../redux/apis/menuItemApi";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigates/typeRootStack";
 
 const imageOptions = [{ value: "Remove Image", id: "remove" }];
 
@@ -48,6 +51,8 @@ export default function MenuItemUpsert() {
   const [selectedImage, setSelectedImage] = useState("");
   const [showImageOptions, setShowImageOptions] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [createMenuItem] = useCreateMenuItemMutation();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleOnImageSelection = async () => {
     const newImages = await selectImages();
@@ -79,30 +84,20 @@ export default function MenuItemUpsert() {
 
     const formData = new FormData();
 
-    formData.append("Name", menuItemInputs.name);
-    formData.append("Description", menuItemInputs.description);
-    formData.append("SpecialTag", menuItemInputs.specialTag);
-    formData.append("Category", menuItemInputs.category);
-    formData.append("Price", menuItemInputs.price);
+    //ปรับการนำค่าใส่ใน formData ให้สั้นลงโดยใช้ (key, value)
+    type menuInfoKeys = keyof typeof menuItemInputs;
+
+    for (let key in menuItemInputs) {
+      const value = menuItemInputs[key as menuInfoKeys];
+      formData.append(key, value);
+    }
     formData.append("File", fileData);
 
-    const url = "https://07ab-202-28-123-199.ngrok-free.app/api/MenuItem";
-
-    fetch(url, {
-      method: "POST",
-      body: formData,
-      headers: {
-        // 'Content-Type' is not needed for FormData
-        // It will be automatically set with the correct boundary
-      },
-    })
-      .then((response) => response.json()) // Parse JSON response
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    const response = await createMenuItem(formData);
+    if (response) {
+      setLoading(false);
+      navigate("MainListScreen");
+    }
 
     setTimeout(() => {
       setLoading(false);
