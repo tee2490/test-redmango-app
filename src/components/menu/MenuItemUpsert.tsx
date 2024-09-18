@@ -9,7 +9,7 @@ import OptionModal from "./OptionModal";
 import { Formik } from "formik";
 import { menuUpsertDto } from "../../interfaces/dto";
 import { menuUpsertSchema } from "../../utils/validator";
-import { FormButton, FormInput } from "../../ui";
+import { BackBtn1, FormButton, FormButton1, FormInput } from "../../ui";
 import { COLORS, FONTS, SIZES } from "../../common";
 import RNPickerSelect from "react-native-picker-select";
 import { SD_Categories } from "../../common/SD";
@@ -52,7 +52,8 @@ export default function MenuItemUpsert() {
   const [showImageOptions, setShowImageOptions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [createMenuItem] = useCreateMenuItemMutation();
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const { navigate, goBack } =
+    useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleOnImageSelection = async () => {
     const newImages = await selectImages();
@@ -61,8 +62,8 @@ export default function MenuItemUpsert() {
 
   const onHandleSubmit = async (menuItemInputs: menuUpsertDto) => {
     setLoading(true);
-    if (!images) {
-      showMessage({ message: "Please upload an image", type: "danger" });
+    if (images.length == 0) {
+      showMessage({ message: "Please upload an image", type: "warning" });
       setLoading(false);
       return;
     }
@@ -176,12 +177,17 @@ export default function MenuItemUpsert() {
             )}
           </View>
 
-          <FormButton
-            loading={loading}
-            title={"Submit"}
-            onPress={isValid ? handleSubmit : inValidForm}
-            isValid={isValid}
-          />
+          <View style={styles.nextContainer}>
+            <BackBtn1 size={40} onPress={() => goBack()} />
+
+            <FormButton1
+              loading={loading}
+              title={"Submit"}
+              onPress={isValid ? handleSubmit : inValidForm}
+              isValid={isValid}
+              color={COLORS.danger}
+            />
+          </View>
         </View>
       )}
     </Formik>
@@ -286,5 +292,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 5,
     fontSize: SIZES.xSmall,
+  },
+  nextContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
