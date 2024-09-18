@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import CustomKeyAvoidingView from "../../ui/CustomKeyAvoidingView";
@@ -9,6 +9,10 @@ import OptionModal from "./OptionModal";
 import { Formik } from "formik";
 import { menuUpsertDto } from "../../interfaces/dto";
 import { menuUpsertSchema } from "../../utils/validator";
+import { FormInput } from "../../ui";
+import { COLORS, FONTS } from "../../common";
+import RNPickerSelect from "react-native-picker-select";
+import { SD_Categories } from "../../common/SD";
 
 const imageOptions = [{ value: "Remove Image", id: "remove" }];
 
@@ -19,6 +23,14 @@ const initialData: menuUpsertDto = {
   category: "",
   price: "",
 };
+
+// Use the enum values for the picker options
+const Categories = [
+  { label: SD_Categories.APPETIZER, value: SD_Categories.APPETIZER },
+  { label: SD_Categories.BEVERAGES, value: SD_Categories.BEVERAGES },
+  { label: SD_Categories.DESSERT, value: SD_Categories.DESSERT },
+  { label: SD_Categories.ENTREE, value: SD_Categories.ENTREE },
+];
 
 const FormixForm = () => (
   <Formik
@@ -36,7 +48,47 @@ const FormixForm = () => (
       isValid,
       setFieldTouched,
       setFieldValue,
-    }) => <View></View>}
+    }) => (
+      <View>
+        <FormInput
+          placeholder="Name"
+          value={values.name}
+          onChangeText={handleChange("name")}
+        />
+
+        <FormInput
+          placeholder="Description"
+          value={values.description}
+          onChangeText={handleChange("description")}
+          multiline
+          numberOfLines={4}
+        />
+
+        <FormInput
+          placeholder="specialTag"
+          value={values.specialTag}
+          onChangeText={handleChange("specialTag")}
+        />
+
+        <FormInput
+          placeholder="price"
+          value={values.price}
+          onChangeText={handleChange("price")}
+          keyboardType="numeric"
+        />
+
+        <RNPickerSelect
+          style={{
+            inputAndroid: styles.inputAndroid,
+            viewContainer: styles.pickerContainer,
+          }}
+          onValueChange={(value) => setFieldValue("category", value)}
+          items={Categories}
+          placeholder={{ label: "Select category...", value: null }}
+          value={values.category}
+        />
+      </View>
+    )}
   </Formik>
 );
 
@@ -131,5 +183,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.primary,
     padding: 10,
+  },
+  inputAndroid: {
+    color: COLORS.primary,
+    marginHorizontal: -10,
+    marginVertical: -5,
+  },
+  pickerContainer: {
+    borderWidth: 0.3,
+    borderColor: COLORS.gray,
+    borderRadius: 5,
   },
 });
