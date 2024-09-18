@@ -13,15 +13,17 @@ import { FormButton, FormInput } from "../../ui";
 import { COLORS, FONTS, SIZES } from "../../common";
 import RNPickerSelect from "react-native-picker-select";
 import { SD_Categories } from "../../common/SD";
+import { showMessage } from "react-native-flash-message";
+import mime from "mime";
 
 const imageOptions = [{ value: "Remove Image", id: "remove" }];
 
 const initialData: menuUpsertDto = {
-  name: "",
-  description: "",
-  specialTag: "",
-  category: "",
-  price: "",
+  name: "Test Name",
+  description: "Test Description",
+  specialTag: "Test SpecialTage",
+  category: SD_Categories.APPETIZER,
+  price: "99.99",
 };
 
 // Use the enum values for the picker options
@@ -41,10 +43,6 @@ const inValidForm = () => {
   ]);
 };
 
-const onHandleSubmit = async (menuItemInputs: menuUpsertDto) => {
-  console.log(menuItemInputs);
-};
-
 export default function MenuItemUpsert() {
   const [images, setImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState("");
@@ -54,6 +52,61 @@ export default function MenuItemUpsert() {
   const handleOnImageSelection = async () => {
     const newImages = await selectImages();
     setImages([...images, ...newImages]);
+  };
+
+  const onHandleSubmit = async (menuItemInputs: menuUpsertDto) => {
+    setLoading(true);
+    if (!images) {
+      showMessage({ message: "Please upload an image", type: "danger" });
+      setLoading(false);
+      return;
+    }
+
+    // appending images
+    const newImages = images.map((img, index) => ({
+      name: "image_" + index,
+      type: mime.getType(img),
+      uri: img,
+    }));
+
+    //ดูจาก https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
+    const fileUri = newImages[0].uri;
+    const fileName = fileUri.split("/").pop();
+    const match = /\.(\w+)$/.exec(fileName!);
+    const fileType = match ? `image/${match[1]}` : `image`;
+
+    const fileData = { uri: fileUri, name: fileName, type: fileType } as any;
+
+    const formData = new FormData();
+
+    formData.append("Name", menuItemInputs.name);
+    formData.append("Description", menuItemInputs.description);
+    formData.append("SpecialTag", menuItemInputs.specialTag);
+    formData.append("Category", menuItemInputs.category);
+    formData.append("Price", menuItemInputs.price);
+    formData.append("File", fileData);
+
+    const url = "https://07ab-202-28-123-199.ngrok-free.app/api/MenuItem";
+
+    fetch(url, {
+      method: "POST",
+      body: formData,
+      headers: {
+        // 'Content-Type' is not needed for FormData
+        // It will be automatically set with the correct boundary
+      },
+    })
+      .then((response) => response.json()) // Parse JSON response
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   const FormixForm = () => (
