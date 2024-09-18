@@ -6,8 +6,39 @@ import HorizontalImageList from "./HorizontalImageList";
 import colors from "../../utils/colors";
 import { selectImages } from "../../utils/helper";
 import OptionModal from "./OptionModal";
+import { Formik } from "formik";
+import { menuUpsertDto } from "../../interfaces/dto";
+import { menuUpsertSchema } from "../../utils/validator";
 
 const imageOptions = [{ value: "Remove Image", id: "remove" }];
+
+const initialData: menuUpsertDto = {
+  name: "",
+  description: "",
+  specialTag: "",
+  category: "",
+  price: "",
+};
+
+const FormixForm = () => (
+  <Formik
+    initialValues={initialData}
+    validationSchema={menuUpsertSchema}
+    onSubmit={(values) => {}}
+  >
+    {({
+      handleChange,
+      handleBlur,
+      touched,
+      handleSubmit,
+      values,
+      errors,
+      isValid,
+      setFieldTouched,
+      setFieldValue,
+    }) => <View></View>}
+  </Formik>
+);
 
 export default function MenuItemUpsert() {
   const [images, setImages] = useState<string[]>([]);
@@ -57,6 +88,8 @@ export default function MenuItemUpsert() {
             }
           }}
         />
+
+        <FormixForm />
       </View>
     </CustomKeyAvoidingView>
   );

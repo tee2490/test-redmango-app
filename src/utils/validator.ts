@@ -29,4 +29,12 @@ const RegisterSchema = Yup.object().shape({
     role: Yup.string().required("Required"),
 });
 
-export { PickupDetailsSchema, LoginSchema, RegisterSchema };
+const menuUpsertSchema =  Yup.object().shape({
+  name: Yup.string().required("Required"),
+  description: Yup.string(),
+  specialTag: Yup.string(),
+  category: Yup.string(),
+  price: Yup.number().min(1,"Price must be at least 1").required("Required"),
+});
+
+export { PickupDetailsSchema, LoginSchema, RegisterSchema, menuUpsertSchema };
