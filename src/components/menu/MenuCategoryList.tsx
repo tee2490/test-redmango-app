@@ -10,15 +10,7 @@ interface Props {
 
 const LIST_ITEM_SIZE = 80;
 
-const categoryTest = [
-  SD_Categories.APPETIZER,
-  SD_Categories.ENTREE,
-  SD_Categories.DESSERT,
-  SD_Categories.BEVERAGES,
-  "Test"
-];
-
-const MenuCategoryList: FC<Props> = ({ categoryList = categoryTest }) => {
+const MenuCategoryList: FC<Props> = ({ categoryList }) => {
   const [selectedColor, setSelectedColor] = useState(SD_Categories.APPETIZER);
 
   const onSelect = (item:any) => {

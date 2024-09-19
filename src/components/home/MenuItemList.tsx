@@ -11,6 +11,8 @@ import { RootState } from "../../redux/store";
 import { MenuCategoryList } from "../menu";
 
 export default function MenuItemList() {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [categoryList, setCategoryList] = useState([""]);
   const dispatch = useDispatch();
   const { data, isLoading } = useGetMenuItemsQuery(null);
   const [menuItems, setMenuItems] = useState<menuItemModel[]>([]);
@@ -41,6 +43,14 @@ export default function MenuItemList() {
     if (!isLoading) {
       dispatch(setMenuItem(data?.result));
       setMenuItems(data.result);
+
+      const tempCategoryList = ["All"];
+      data.result.forEach((item: menuItemModel) => {
+        if (tempCategoryList.indexOf(item.category) === -1) {
+          tempCategoryList.push(item.category);
+        }
+      });
+      setCategoryList(tempCategoryList);
     }
   }, [isLoading]);
 
@@ -51,7 +61,7 @@ export default function MenuItemList() {
   return (
     <View>
       <View style={styles.categoryContainer}>
-        <MenuCategoryList />
+        <MenuCategoryList categoryList={categoryList} />
       </View>
       <View style={styles.container}>
         <FlatList
