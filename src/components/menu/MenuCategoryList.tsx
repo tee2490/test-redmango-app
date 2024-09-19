@@ -5,16 +5,20 @@ import { COLORS, SIZES } from "../../common";
 import { SD_Categories } from "../../common/SD";
 
 interface Props {
-  categoryList?: string[];
+  categoryList: string[];
+  setSelectedCategory(category: string): void;
 }
 
 const LIST_ITEM_SIZE = 80;
 
-const MenuCategoryList: FC<Props> = ({ categoryList }) => {
-  const [selectedColor, setSelectedColor] = useState(SD_Categories.APPETIZER);
+const MenuCategoryList: FC<Props> = ({ categoryList, setSelectedCategory }) => {
+  const [selectedColor, setSelectedColor] = useState<string>(
+    SD_Categories.APPETIZER
+  );
 
-  const onSelect = (item:any) => {
-    setSelectedColor(item);
+  const onSelect = (category: string) => {
+    setSelectedColor(category);
+    setSelectedCategory(category);
   };
 
   return (
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondary,
   },
   categoryName: {
-    fontSize: SIZES.small+2,
+    fontSize: SIZES.small + 2,
     textAlign: "center",
     paddingTop: 2,
     color: colors.primary,
