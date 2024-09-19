@@ -1,4 +1,4 @@
-import { FlatList, View, Text } from "react-native";
+import { FlatList, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import MenuItemCard from "./MenuItemCard";
 import styles from "./MenuItemList.style";
@@ -8,6 +8,7 @@ import { setMenuItem } from "../../redux/menuItemSlice";
 import { MainLoader } from "../../common";
 import { menuItemModel } from "../../interfaces";
 import { RootState } from "../../redux/store";
+import { MenuCategoryList } from "../menu";
 
 export default function MenuItemList() {
   const dispatch = useDispatch();
@@ -48,14 +49,19 @@ export default function MenuItemList() {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={menuItems}
-        numColumns={2}
-        renderItem={({ item }) => <MenuItemCard menuItem={item} />}
-        contentContainerStyle={styles.container}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-      />
+    <View>
+      <View style={styles.categoryContainer}>
+        <MenuCategoryList />
+      </View>
+      <View style={styles.container}>
+        <FlatList
+          data={menuItems}
+          numColumns={2}
+          renderItem={({ item }) => <MenuItemCard menuItem={item} />}
+          contentContainerStyle={styles.container}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
+      </View>
     </View>
   );
 }

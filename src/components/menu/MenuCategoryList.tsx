@@ -18,7 +18,7 @@ const categoryTest = [
   "Test"
 ];
 
-const CategoryList: FC<Props> = ({ categoryList = categoryTest }) => {
+const MenuCategoryList: FC<Props> = ({ categoryList = categoryTest }) => {
   const [selectedColor, setSelectedColor] = useState(SD_Categories.APPETIZER);
 
   const onSelect = (item:any) => {
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryList;
+export default MenuCategoryList;

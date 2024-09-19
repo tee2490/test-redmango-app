@@ -10,12 +10,15 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    // paddingTop: SIZES.xxLarge,
     paddingLeft: SIZES.small / 2,
     backgroundColor: COLORS.white,
   },
   separator: {
     height: 16,
+  },
+  categoryContainer: {
+    marginHorizontal: SIZES.xSmall,
+    flexDirection: "row",
   },
 });
 

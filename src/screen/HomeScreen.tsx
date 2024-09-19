@@ -3,16 +3,12 @@ import React from "react";
 import { MenuItemList } from "../components/home";
 import { COLORS, SIZES } from "../common";
 import SearchBar from "../components/menu/MenuSearchBar";
-import MenuCategoryList from "../components/menu/MenuCategoryList";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <SearchBar />
-      </View>
-      <View style={styles.categoryContainer}>
-        <MenuCategoryList />
       </View>
       <MenuItemList />
     </View>
@@ -29,9 +25,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  categoryContainer: {
-    marginHorizontal: SIZES.xSmall,
-    flexDirection: "row",
   },
 });
