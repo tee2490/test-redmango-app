@@ -22,6 +22,7 @@
     "expo-status-bar": "~1.12.1",
     "formik": "^2.4.6",
     "jwt-decode": "^4.0.0",
+    "lodash": "^4.17.21",
     "mime": "^4.0.4",
     "react": "18.2.0",
     "react-native": "0.74.5",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/lodash": "^4.17.7",
     "@types/react": "~18.2.45",
     "typescript": "^5.1.3"
   },
