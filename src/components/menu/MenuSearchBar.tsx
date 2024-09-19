@@ -3,12 +3,14 @@ import { View, StyleSheet, TextInput,Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../utils/colors";
 import { debounce } from 'lodash';
+import { setSearchItem } from "../../redux/menuItemSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {}
 
 const MenuSearchBar: FC<Props> = (props) => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedValue, setDebouncedValue] = useState<string>('');
+  const dispatch = useDispatch();
 
    // Create a debounced function
    const debouncedSearch = useCallback(
@@ -21,8 +23,8 @@ const MenuSearchBar: FC<Props> = (props) => {
 
   // Handle input change
   const handleChange = (text: string) => {
-    setSearchTerm(text);
     debouncedSearch(text);
+    dispatch(setSearchItem(debouncedValue));
   };
   
   return (
