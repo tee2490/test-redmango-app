@@ -4,7 +4,7 @@ import colors from "../../utils/colors";
 import { setSearchItem } from "../../redux/menuItemSlice";
 import { useDispatch } from "react-redux";
 
-const MenuSearchBar = () => {
+export default function MenuSearchBar() {
   const dispatch = useDispatch();
 
   // Handle input change
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MenuSearchBar;
+

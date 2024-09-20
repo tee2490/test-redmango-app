@@ -2,13 +2,14 @@ import { View, StyleSheet } from "react-native";
 import React from "react";
 import { MenuItemList } from "../components/home";
 import { COLORS, SIZES } from "../common";
-import SearchBar from "../components/menu/MenuSearchBar";
+import { MenuSearchBar, MenuSort } from "../components/menu";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <SearchBar />
+        <MenuSearchBar />
+        <MenuSort/>
       </View>
       <MenuItemList />
     </View>
