@@ -1,5 +1,5 @@
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetAllOrdersQuery } from "../../redux/apis/orderApi";
 import styles from "./MyOrderScreen.style";
 import { BackBtn1, FormButton1, FormInput } from "../../ui";
@@ -11,6 +11,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SD_Status } from "../../common/SD";
 import RNPickerSelect from "react-native-picker-select";
 import colors from "../../utils/colors";
+import { orderHeaderModel } from "../../interfaces";
 
 const filterOptions = [
   { label: "All", value: "All" },
@@ -21,6 +22,7 @@ const filterOptions = [
 ];
 
 export default function AllOrderScreen() {
+  const [orderData, setOrderData] = useState<orderHeaderModel[]>([]);
   const { data, isLoading } = useGetAllOrdersQuery("");
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const [filters, setFilters] = useState({ searchString: "", status: "" });
@@ -29,6 +31,31 @@ export default function AllOrderScreen() {
     setFilters({ ...filters, [name]: text });
     console.log(filters);
   };
+
+  const handleFilters = () => {
+    const tempData = data.result.filter((orderData: orderHeaderModel) => {
+      if (
+        (orderData.pickupName &&
+          orderData.pickupName.includes(filters.searchString)) ||
+        (orderData.pickupEmail &&
+          orderData.pickupEmail.includes(filters.searchString)) ||
+        (orderData.pickupPhoneNumber &&
+          orderData.pickupPhoneNumber.includes(filters.searchString))
+      ) {
+        return orderData;
+      }
+    });
+    const finalArray = tempData.filter((orderData: orderHeaderModel) =>
+      filters.status !== "All" ? orderData.status === filters.status : orderData
+    );
+    setOrderData(finalArray);
+  };
+  
+  useEffect(() => {
+    if (data) {
+      setOrderData(data.result);
+    }
+  }, [data]);
 
   const FilterOrder = () => (
     <View style={filterStyles.filterContainer}>
@@ -62,7 +89,7 @@ export default function AllOrderScreen() {
           title="filter"
           isValid={true}
           color={COLORS.info}
-          onPress={() => {}}
+          onPress={()=>handleFilters()}
         />
       </View>
     </View>
@@ -83,11 +110,11 @@ export default function AllOrderScreen() {
 
       {!isLoading && (
         <FlatList
-          data={data.result}
+          data={orderData}
           // keyExtractor={(item) => item.orderHeaderId}
           renderItem={({ item }) => (
             <OrderList
-              key={item.orderHeaderId}
+              //key={item.orderHeaderId}
               orderData={item}
               isLoading={isLoading}
             />
