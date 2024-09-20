@@ -7,11 +7,11 @@ import {
 import React from "react";
 import { COLORS, FONTS, SIZES } from "../common";
 
-const Button = ({ title, onPress, isValid, loading,color=COLORS.primary }: any) => {
+const Button = ({ title, onPress, isValid, loading,color=COLORS.primary,height}: any) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={styles.btnStyle(!isValid ? COLORS.gray : color)}
+      style={styles.btnStyle(!isValid ? COLORS.gray : color,height)}
     >
       {!loading ? (
         <Text style={styles.btnTxt}>{title}</Text>
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     paddingHorizontal:5,
   },
-  btnStyle: (backgroundColor: string) => ({
-    height: 40,
+  btnStyle: (backgroundColor: string,height=40) => ({
+    height: height,
     width:'auto',
     marginVertical: 5,
     marginHorizontal : 5,

@@ -1,38 +1,123 @@
-import { View, Text, FlatList } from 'react-native'
-import React from 'react'
-import { useGetAllOrdersQuery } from '../../redux/apis/orderApi';
-import styles from './MyOrderScreen.style';
-import { BackBtn1 } from '../../ui';
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { useGetAllOrdersQuery } from "../../redux/apis/orderApi";
+import styles from "./MyOrderScreen.style";
+import { BackBtn1, FormButton1, FormInput } from "../../ui";
 
-import { RootStackParamList } from '../../navigates/typeRootStack';
-import { MainLoader } from '../../common';
-import { OrderList } from '../../components/order';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from "../../navigates/typeRootStack";
+import { COLORS, MainLoader } from "../../common";
+import { OrderList } from "../../components/order";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { SD_Status } from "../../common/SD";
+import RNPickerSelect from "react-native-picker-select";
+import colors from "../../utils/colors";
+
+const filterOptions = [
+  { label: "All", value: "All" },
+  { label: SD_Status.CONFIRMED, value: SD_Status.CONFIRMED },
+  { label: SD_Status.BEING_COOKED, value: SD_Status.BEING_COOKED },
+  { label: SD_Status.READY_FOR_PICKUP, value: SD_Status.READY_FOR_PICKUP },
+  { label: SD_Status.CANCELLED, value: SD_Status.CANCELLED },
+];
 
 export default function AllOrderScreen() {
-    const { data, isLoading } = useGetAllOrdersQuery("");
-    const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
-    
-    return (
-        <View style={styles.container}>
-          <View style={styles.titleRow}>
-            <BackBtn1 onPress={() => navigate("ProfileScreen")} />
-            <Text style={styles.titletxt}>
-              All Orders ({!isLoading && data.result.length} items)
-            </Text>
-          </View>
-    
-          {isLoading && <MainLoader />}
-    
-          {!isLoading && (
-            <FlatList
-              data={data.result}
-             // keyExtractor={(item) => item.orderHeaderId}
-              renderItem={({ item }) => (
-                <OrderList key={item.orderHeaderId} orderData={item} isLoading={isLoading} />
-              )}
+  const { data, isLoading } = useGetAllOrdersQuery("");
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const [filters, setFilters] = useState({ searchString: "", status: "" });
+
+  const handleChange = (name: string) => (text: string) => {
+    setFilters({ ...filters, [name]: text });
+    console.log(filters);
+  };
+
+  const FilterOrder = () => (
+    <View style={filterStyles.filterContainer}>
+      <View style={filterStyles.filterContainer1}>
+        <FormInput
+          placeholder="Search name email or phone"
+          value={filters.searchString}
+          onChangeText={handleChange("searchString")}
+        />
+      </View>
+      <View style={filterStyles.filterContainer1}>
+        <RNPickerSelect
+          style={{
+            inputAndroid: filterStyles.inputAndroid,
+            viewContainer: filterStyles.pickerContainer,
+          }}
+          value={filters.status}
+          onValueChange={(value) => handleChange("status")(value)}
+          items={filterOptions}
+          placeholder={{ label: "Status Select...", value: null }}
+        />
+      </View>
+      <View
+        style={{
+          marginTop: -12,
+          borderRadius: 2,
+        }}
+      >
+        <FormButton1
+          height={40}
+          title="filter"
+          isValid={true}
+          color={COLORS.info}
+          onPress={() => {}}
+        />
+      </View>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleRow}>
+        <BackBtn1 onPress={() => navigate("ProfileScreen")} />
+        <Text style={styles.titletxt}>
+          All Orders ({!isLoading && data.result.length} items)
+        </Text>
+      </View>
+
+      {isLoading && <MainLoader />}
+
+      <FilterOrder />
+
+      {!isLoading && (
+        <FlatList
+          data={data.result}
+          // keyExtractor={(item) => item.orderHeaderId}
+          renderItem={({ item }) => (
+            <OrderList
+              key={item.orderHeaderId}
+              orderData={item}
+              isLoading={isLoading}
             />
           )}
-        </View>
-      );
+        />
+      )}
+    </View>
+  );
 }
+
+const filterStyles = StyleSheet.create({
+  inputAndroid: {
+    color: COLORS.primary,
+    marginHorizontal: -10,
+    marginVertical: -5,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 5,
+    marginBottom: 15,
+  },
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  filterContainer1: {
+    paddingHorizontal: 2,
+    flex: 1,
+    borderRadius: 5,
+  },
+});
