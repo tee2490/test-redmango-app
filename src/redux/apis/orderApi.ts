@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../../common/SD";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const orderApi = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrlAPI,
-    prepareHeaders: (headers: Headers, api) => {
-      const token = localStorage.getItem("token");
+    prepareHeaders: async (headers: Headers, api) => {
+      const token = await AsyncStorage.getItem("token");
       token && headers.append("Authorization", "Bearer " + token);
     },
   }),
