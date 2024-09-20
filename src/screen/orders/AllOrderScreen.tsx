@@ -14,7 +14,7 @@ import colors from "../../utils/colors";
 import { orderHeaderModel } from "../../interfaces";
 
 const filterOptions = [
-  { label: "All", value: "All" },
+  { label: "All", value: " " },
   { label: SD_Status.CONFIRMED, value: SD_Status.CONFIRMED },
   { label: SD_Status.BEING_COOKED, value: SD_Status.BEING_COOKED },
   { label: SD_Status.READY_FOR_PICKUP, value: SD_Status.READY_FOR_PICKUP },
@@ -45,8 +45,9 @@ export default function AllOrderScreen() {
         return orderData;
       }
     });
+    
     const finalArray = tempData.filter((orderData: orderHeaderModel) =>
-      filters.status !== "All" ? orderData.status === filters.status : orderData
+      filters.status !== " " ? orderData.status === filters.status : orderData
     );
     setOrderData(finalArray);
   };
@@ -57,7 +58,7 @@ export default function AllOrderScreen() {
     }
   }, [data]);
 
-  const FilterOrder = () => (
+  const FilterOrder = (
     <View style={filterStyles.filterContainer}>
       <View style={filterStyles.filterContainer1}>
         <FormInput
@@ -73,7 +74,7 @@ export default function AllOrderScreen() {
             viewContainer: filterStyles.pickerContainer,
           }}
           value={filters.status}
-          onValueChange={(value) => handleChange("status")(value)}
+          onValueChange={handleChange("status")}
           items={filterOptions}
           placeholder={{ label: "Status Select...", value: null }}
         />
@@ -106,7 +107,7 @@ export default function AllOrderScreen() {
 
       {isLoading && <MainLoader />}
 
-      <FilterOrder />
+      {FilterOrder}
 
       {!isLoading && (
         <FlatList
