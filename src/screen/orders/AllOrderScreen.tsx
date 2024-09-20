@@ -27,7 +27,7 @@ export default function AllOrderScreen() {
           {!isLoading && (
             <FlatList
               data={data.result}
-              keyExtractor={(item) => item.orderHeaderId}
+             // keyExtractor={(item) => item.orderHeaderId}
               renderItem={({ item }) => (
                 <OrderList key={item.orderHeaderId} orderData={item} isLoading={isLoading} />
               )}

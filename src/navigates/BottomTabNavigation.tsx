@@ -1,8 +1,8 @@
 import { StyleSheet, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeScreen, MainListScreen, ProfileScreen, ShoppingCartScreen } from "../screen";
+import { HomeScreen, ProfileScreen, ShoppingCartScreen } from "../screen";
 import StackNavigation from "./StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { SIZES } from "../common";
@@ -12,11 +12,11 @@ import { setShoppingCart } from "../redux/shoppingCartSlice";
 import { Badge } from "react-native-paper";
 import { cartItemModel, userModel } from "../interfaces";
 import { RootState } from "../redux/store";
-import { MenuItemUpsert } from "../components/menu";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigation() {
+  const [skip, setSkip] = useState(false);
   const userData: userModel = useSelector(
     (state: RootState) => state.userAuthStore
   );
@@ -27,14 +27,21 @@ export default function BottomTabNavigation() {
 
   const dispatch = useDispatch();
 
-  const { data, isLoading } = useGetShoppingCartQuery(userData.id);
+  const { data, isLoading } = useGetShoppingCartQuery(userData.id,{
+    skip: skip,
+  });
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && data) {
       console.log(data.result);
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
+
+  useEffect(() => {
+    //ถ้า userData มีการเปลี่ยนแปลงค่า โดย userData.id มีค่าให้เปลี่ยนสเตทเป็น true
+    if (userData.id) setSkip(true);
+  }, [userData]);
 
   return (
     <NavigationContainer>
