@@ -32,8 +32,9 @@ export enum SD_SortTypes {
 }
 
 export enum SD_PerPage {
-  PERPAGE1 = "5",
-  PERPAGE2 = "10",
-  PERPAGE3 = "15",
+  PERPAGE0 = "1",
+  PERPAGE1 = "2",
+  PERPAGE2 = "5",
+  PERPAGE3 = "10",
   PERPAGE4 = "20",
 }

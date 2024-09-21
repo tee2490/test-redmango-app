@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SD_PerPage } from "../../common/SD";
 import RNPickerSelect from "react-native-picker-select";
 import { COLORS, SIZES } from "../../common";
@@ -8,29 +8,42 @@ import colors from "../../utils/colors";
 import { DataTable } from "react-native-paper";
 
 const SortTypes = [
+  { label: SD_PerPage.PERPAGE0, value: SD_PerPage.PERPAGE0 },
   { label: SD_PerPage.PERPAGE1, value: SD_PerPage.PERPAGE1 },
   { label: SD_PerPage.PERPAGE2, value: SD_PerPage.PERPAGE2 },
   { label: SD_PerPage.PERPAGE3, value: SD_PerPage.PERPAGE3 },
   { label: SD_PerPage.PERPAGE4, value: SD_PerPage.PERPAGE4 },
 ];
 
-const items = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+// const items = [
+//   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+// ];
 
-export default function Paginations() {
-  const [page, setPage] = React.useState(0);
+interface Props {
+  TotalRecords: number;
+  onSetPagination(pageSize: number, pageNumber: number): void;
+}
+
+export default function Paginations({ TotalRecords, onSetPagination }: Props) {
+  const [page, setPage] = useState(0); //หมายเลขหน้าปัจจุบัน
   const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
-    parseInt(SD_PerPage.PERPAGE1)
-  );
+    parseInt(SD_PerPage.PERPAGE0)
+  ); //จำนวนแถวต่อหน้า
   const from = page * numberOfItemsPerPage;
-  const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
+  const to = Math.min((page + 1) * numberOfItemsPerPage, TotalRecords);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPage(0);
   }, [numberOfItemsPerPage]);
 
   const handleChange = (text: number) => {
     onItemsPerPageChange(text);
   };
+
+  useEffect(() => {
+    //page+1 เนื่องจาก backend ตั้งค่าหน้าแรกเท่ากับ 1
+    onSetPagination(page + 1, numberOfItemsPerPage);
+  }, [page, numberOfItemsPerPage]);
 
   return (
     <View style={styles.container}>
@@ -49,12 +62,11 @@ export default function Paginations() {
         <DataTable>
           <DataTable.Pagination
             page={page}
-            numberOfPages={Math.ceil(items.length / numberOfItemsPerPage)}
+            numberOfPages={Math.ceil(TotalRecords / numberOfItemsPerPage)}
             onPageChange={(page) => setPage(page)}
-            label={`${from + 1}-${to} of ${items.length}`}
+            label={`${from + 1}-${to} of ${TotalRecords}`}
             showFastPaginationControls
             numberOfItemsPerPage={numberOfItemsPerPage}
-            onItemsPerPageChange={onItemsPerPageChange}
           />
         </DataTable>
       </View>
@@ -67,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingLeft: SIZES.small / 2,
-   // backgroundColor: COLORS.primary,
+    // backgroundColor: COLORS.primary,
     alignContent: "center",
     paddingBottom: -10,
   },

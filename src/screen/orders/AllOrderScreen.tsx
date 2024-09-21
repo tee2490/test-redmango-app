@@ -25,8 +25,8 @@ const filterOptions = [
 export default function AllOrderScreen() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [pageOptions, setPageOptions] = useState({
-    pageNumber: 1,
-    pageSize: 5,
+    page: 1,
+    numberOfItemsPerPage: 5,
   });
   const [orderData, setOrderData] = useState<orderHeaderModel[]>([]);
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
@@ -41,6 +41,8 @@ export default function AllOrderScreen() {
     ...(apiFilters && {
       searchString: apiFilters.searchString,
       status: apiFilters.status,
+      pageNumber: pageOptions.page,
+      pageSize: pageOptions.numberOfItemsPerPage,
     }),
   });
 
@@ -64,6 +66,11 @@ export default function AllOrderScreen() {
       setTotalRecords(TotalRecords);
     }
   }, [data]);
+
+  const onSetPagination = (page: number, numberOfItemsPerPage: number) => {
+    //เมื่อสเตทเปลี่ยนจะไปเรียก useGetAllOrdersQuery()
+    setPageOptions({ page, numberOfItemsPerPage });
+  };
 
   const FilterOrder = (
     <View style={filterStyles.filterContainer}>
@@ -119,7 +126,12 @@ export default function AllOrderScreen() {
       {!isLoading && (
         <FlatList
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={MenuPagination}
+          ListHeaderComponent={
+            <MenuPagination
+              TotalRecords={totalRecords}
+              onSetPagination={onSetPagination}
+            />
+          }
           data={orderData}
           renderItem={({ item }) => (
             <OrderList
