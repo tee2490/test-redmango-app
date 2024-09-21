@@ -22,6 +22,11 @@ const filterOptions = [
 ];
 
 export default function AllOrderScreen() {
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [pageOptions, setPageOptions] = useState({
+    pageNumber: 1,
+    pageSize: 5,
+  });
   const [orderData, setOrderData] = useState<orderHeaderModel[]>([]);
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const [filters, setFilters] = useState({ searchString: "", status: "" });
@@ -53,7 +58,9 @@ export default function AllOrderScreen() {
 
   useEffect(() => {
     if (data) {
-      setOrderData(data.result);
+      setOrderData(data.apiResponse.result);
+      const { TotalRecords } = JSON.parse(data.totalRecords);
+      setTotalRecords(TotalRecords);
     }
   }, [data]);
 
@@ -100,7 +107,7 @@ export default function AllOrderScreen() {
       <View style={styles.titleRow}>
         <BackBtn1 onPress={() => navigate("ProfileScreen")} />
         <Text style={styles.titletxt}>
-          All Orders ({!isLoading && data.result.length} items)
+          All Orders ({!isLoading && totalRecords} items)
         </Text>
       </View>
 
