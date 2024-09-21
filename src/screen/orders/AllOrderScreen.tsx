@@ -23,9 +23,20 @@ const filterOptions = [
 
 export default function AllOrderScreen() {
   const [orderData, setOrderData] = useState<orderHeaderModel[]>([]);
-  const { data, isLoading } = useGetAllOrdersQuery("");
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const [filters, setFilters] = useState({ searchString: "", status: "" });
+
+  const [apiFilters, setApiFilters] = useState({
+    searchString: "",
+    status: "",
+  });
+
+  const { data, isLoading } = useGetAllOrdersQuery({
+    ...(apiFilters && {
+      searchString: apiFilters.searchString,
+      status: apiFilters.status,
+    }),
+  });
 
   const handleChange = (name: string) => (text: string) => {
     setFilters({ ...filters, [name]: text });
@@ -33,25 +44,13 @@ export default function AllOrderScreen() {
   };
 
   const handleFilters = () => {
-    const tempData = data.result.filter((orderData: orderHeaderModel) => {
-      if (
-        (orderData.pickupName &&
-          orderData.pickupName.includes(filters.searchString)) ||
-        (orderData.pickupEmail &&
-          orderData.pickupEmail.includes(filters.searchString)) ||
-        (orderData.pickupPhoneNumber &&
-          orderData.pickupPhoneNumber.includes(filters.searchString))
-      ) {
-        return orderData;
-      }
+    //เมื่อสเตทเปลี่ยนจะไปเรียก useGetAllOrdersQuery()
+    setApiFilters({
+      searchString: filters.searchString,
+      status: filters.status,
     });
-    
-    const finalArray = tempData.filter((orderData: orderHeaderModel) =>
-      filters.status !== " " ? orderData.status === filters.status : orderData
-    );
-    setOrderData(finalArray);
   };
-  
+
   useEffect(() => {
     if (data) {
       setOrderData(data.result);
@@ -90,7 +89,7 @@ export default function AllOrderScreen() {
           title="filter"
           isValid={true}
           color={COLORS.info}
-          onPress={()=>handleFilters()}
+          onPress={() => handleFilters()}
         />
       </View>
     </View>
