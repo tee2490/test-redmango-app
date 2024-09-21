@@ -12,6 +12,7 @@ import { SD_Status } from "../../common/SD";
 import RNPickerSelect from "react-native-picker-select";
 import colors from "../../utils/colors";
 import { orderHeaderModel } from "../../interfaces";
+import { MenuPagination } from "../../components/menu";
 
 const filterOptions = [
   { label: "All", value: " " },
@@ -117,11 +118,12 @@ export default function AllOrderScreen() {
 
       {!isLoading && (
         <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={MenuPagination}
           data={orderData}
-          // keyExtractor={(item) => item.orderHeaderId}
           renderItem={({ item }) => (
             <OrderList
-              //key={item.orderHeaderId}
+              key={item.orderHeaderId?.toString()}
               orderData={item}
               isLoading={isLoading}
             />
