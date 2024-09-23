@@ -107,7 +107,7 @@ export default function MenuItemList() {
       //เมื่อเกิด CRUD ทำการปรับข้อมูลให้เป็นปัจจุบัน
       data && setMenuItems(data.result)
     }
-  }, [isLoading,data.result]);
+  }, [isLoading,data]);
 
   if (isLoading) {
     return <MainLoader />;
