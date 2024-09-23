@@ -12,6 +12,7 @@ import { MenuCategoryList } from "../menu";
 import { SD_SortTypes } from "../../common/SD";
 
 export default function MenuItemList() {
+  const [fetching, setFetching] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [categoryList, setCategoryList] = useState([""]);
   const dispatch = useDispatch();
@@ -20,20 +21,33 @@ export default function MenuItemList() {
   const searchValue = useSelector(
     (state: RootState) => state.menuItemStore.search
   );
-  const sortValue = useSelector(
-    (state: RootState) => state.menuItemStore.sort
-  );
+  const sortValue = useSelector((state: RootState) => state.menuItemStore.sort);
 
+  const onRefreshData = () => {
+    setFetching(true);
+    if (data) {
+      setMenuItems(data.result);
+    }
+    setFetching(false);
+  };
 
   //เมื่อเลือกประเภท หรือ คำค้น ให้ทำการกรองข้อมูลใหม่
   useEffect(() => {
     if (data && data.result) {
-      const tempMenuArray = handleFilters(sortValue,selectedCategory, searchValue);
+      const tempMenuArray = handleFilters(
+        sortValue,
+        selectedCategory,
+        searchValue
+      );
       setMenuItems(tempMenuArray);
     }
-  }, [selectedCategory, searchValue,sortValue]);
+  }, [selectedCategory, searchValue, sortValue]);
 
-  const handleFilters = (sortType: SD_SortTypes,category: string, search: string) => {
+  const handleFilters = (
+    sortType: SD_SortTypes,
+    category: string,
+    search: string
+  ) => {
     let tempArray =
       category === "All"
         ? [...data.result]
@@ -104,6 +118,8 @@ export default function MenuItemList() {
       </View>
       <View style={styles.container}>
         <FlatList
+          refreshing={fetching}
+          onRefresh={onRefreshData}
           data={menuItems}
           numColumns={2}
           renderItem={({ item }) => <MenuItemCard menuItem={item} />}
