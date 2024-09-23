@@ -25,7 +25,7 @@ export default function MenuItemList() {
 
   const onRefreshData = () => {
     setFetching(true);
-    if (data) {
+    if (data && selectedCategory === "All") {
       setMenuItems(data.result);
     }
     setFetching(false);
@@ -102,7 +102,12 @@ export default function MenuItemList() {
       });
       setCategoryList(tempCategoryList);
     }
-  }, [isLoading]);
+    else
+    {
+      //เมื่อเกิด CRUD ทำการปรับข้อมูลให้เป็นปัจจุบัน
+      data && setMenuItems(data.result)
+    }
+  }, [isLoading,data.result]);
 
   if (isLoading) {
     return <MainLoader />;
