@@ -12,6 +12,7 @@ import { MenuCategoryList } from "../menu";
 import { SD_SortTypes } from "../../common/SD";
 import { FloatingAction } from "react-native-floating-action";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function MenuItemList() {
   const flatListRef = useRef<FlatList>(null);
@@ -121,12 +122,28 @@ export default function MenuItemList() {
       name: "bt_go_to_top",
       position: 1,
     },
+    {
+      icon: (
+        <MaterialIcons
+          name="vertical-align-bottom"
+          size={24}
+          color={COLORS.white}
+        />
+      ),
+      text: "Scroll to Bottom",
+      name: "bt_scroll",
+      position: 1,
+    },
   ];
 
   const scrollToTop = () => {
     if (flatListRef.current) {
       flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
     }
+  };
+
+  const scrollToBottom = () => {
+    flatListRef.current?.scrollToEnd({ animated: true });
   };
 
   return (
@@ -156,6 +173,10 @@ export default function MenuItemList() {
           onPressItem={(name) => {
             if (name === "bt_go_to_top") {
               scrollToTop();
+            }
+
+            if (name === "bt_scroll") {
+              scrollToBottom();
             }
           }}
         />
