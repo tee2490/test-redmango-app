@@ -39,8 +39,8 @@ export default function OrderList({ isLoading, orderData }: OrderListProps) {
             </Text>
           </View>
           <View style={styles.textTitleContainer}>
-            {[1, 2, 3, 4, 5, 6, 7].map(() => (
-              <Text style={styles.productTxt} numberOfLines={1}>
+            {[1, 2, 3, 4, 5, 6, 7].map((_,index) => (
+              <Text key={index} style={styles.productTxt} numberOfLines={1}>
                 :
               </Text>
             ))}

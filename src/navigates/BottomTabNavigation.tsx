@@ -16,7 +16,7 @@ import { RootState } from "../redux/store";
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigation() {
-  const [skip, setSkip] = useState(false);
+  const [skip, setSkip] = useState(true);
   const userData: userModel = useSelector(
     (state: RootState) => state.userAuthStore
   );
@@ -40,7 +40,7 @@ export default function BottomTabNavigation() {
 
   useEffect(() => {
     //ถ้า userData มีการเปลี่ยนแปลงค่า โดย userData.id มีค่าให้เปลี่ยนสเตทเป็น true
-    if (userData.id) setSkip(true);
+    if (userData.id) setSkip(false);
   }, [userData]);
 
   return (

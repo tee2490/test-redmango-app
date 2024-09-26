@@ -12,8 +12,8 @@ import { BackBtn1 } from "../../ui";
 
 export default function MyOrderScreen() {
   const userId = useSelector((state: RootState) => state.userAuthStore.id);
-  const { data, isLoading } = useGetAllOrdersQuery({userId});
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
+  const { data, isLoading } = useGetAllOrdersQuery({ userId });
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
@@ -29,9 +29,12 @@ export default function MyOrderScreen() {
       {!isLoading && (
         <FlatList
           data={data?.apiResponse.result}
-          //keyExtractor={(item) => item.orderHeaderId}
           renderItem={({ item }) => (
-            <OrderList key={item.orderHeaderId} orderData={item} isLoading={isLoading} />
+            <OrderList
+              key={item.orderHeaderId.toString()}
+              orderData={item}
+              isLoading={isLoading}
+            />
           )}
         />
       )}

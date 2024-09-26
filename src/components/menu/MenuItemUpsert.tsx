@@ -27,11 +27,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 const imageOptions = [{ value: "Remove Image", id: "remove" }];
 
 var initialData: menuUpsertDto = {
-  name: "Test Name8888888888",
+  name: "Test Name123",
   description: "Test Description",
   specialTag: "Test SpecialTage",
   category: SD_Categories.APPETIZER,
-  price: "11155.99",
+  price: "10.99",
 };
 
 // Use the enum values for the picker options
