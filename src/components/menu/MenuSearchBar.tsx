@@ -3,14 +3,29 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../utils/colors";
 import { setSearchItem } from "../../redux/menuItemSlice";
 import { useDispatch } from "react-redux";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useState } from "react";
 
 export default function MenuSearchBar() {
   const dispatch = useDispatch();
+  const [debouncedValue, setDebouncedValue] = useState<string>("");
 
+  // Create a debounced function
+  const debouncedSearch = useCallback(
+    debounce((text: string) => {
+      setDebouncedValue(text);
+    }, 500), // 500 ms debounce time
+    []
+  );
+  
   // Handle input change
   const handleChange = (text: string) => {
-    dispatch(setSearchItem(text));
+    debouncedSearch(text);
   };
+
+  useEffect(() => {
+    dispatch(setSearchItem(debouncedValue));
+  }, [debouncedValue]);
 
   return (
     <View style={styles.container}>
@@ -22,7 +37,7 @@ export default function MenuSearchBar() {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -40,5 +55,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-
