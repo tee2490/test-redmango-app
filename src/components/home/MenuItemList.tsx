@@ -1,4 +1,4 @@
-import { FlatList, View } from "react-native";
+import { Alert, FlatList, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import MenuItemCard from "./MenuItemCard";
 import styles from "./MenuItemList.style";
@@ -20,7 +20,7 @@ export default function MenuItemList() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [categoryList, setCategoryList] = useState([""]);
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetMenuItemsQuery(null);
+  const { data, isLoading, isError, error } = useGetMenuItemsQuery(null);
   const [menuItems, setMenuItems] = useState<menuItemModel[]>([]);
   const searchValue = useSelector(
     (state: RootState) => state.menuItemStore.search
@@ -94,6 +94,19 @@ export default function MenuItemList() {
   };
 
   useEffect(() => {
+    if (isError) {
+      //ตรวจสอบกรณีเชื่อมต่อกับ backend ผิดพลาด
+      const errToString = JSON.stringify(error);
+      const errToObject = JSON.parse(errToString);
+      Alert.alert("Warning!!", errToObject.error, [
+        {
+          text: "Close",
+          onPress: () => {},
+        },
+      ]);
+      return;
+    }
+
     if (!isLoading) {
       dispatch(setMenuItem(data?.result));
       setMenuItems(data.result);
