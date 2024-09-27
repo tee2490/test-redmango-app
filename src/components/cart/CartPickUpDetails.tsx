@@ -110,7 +110,7 @@ const CartPickUpDetails: React.FC = () => {
               <Button
                 onPress={() => handleSubmit()}
                 title="Looks Good? Place Order!"
-                color={COLORS.green}
+                color={COLORS.success}
                 disabled={!isValid}
               />
             )}
